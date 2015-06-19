@@ -14,7 +14,6 @@ nginx_www_dir:        "/var/www"
 nginx_log_dir:        "/var/log/nginx"
 nginx_pid:            "/var/run/nginx.pid"
 
-nginx_prefix:         "/var/www"
 nginx_conf_path:      "{{nginx_dir}}/nginx.conf"
 nginx_sbin_path:      "/usr/local/sbin/nginx"
 
