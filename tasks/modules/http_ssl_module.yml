@@ -1,0 +1,12 @@
+# file: nginx/tasks/modules/http_ssl_module.yml
+# configure flag: --with-http_ssl_module
+
+- name: get openssl source
+  git:
+    repo: "{{openssl_repo}}"
+    dest: "/tmp/openssl-repo"
+    version: "{{openssl_revision}}"
+  when: nginx_source_modules_included.openssl is defined
+
+
+

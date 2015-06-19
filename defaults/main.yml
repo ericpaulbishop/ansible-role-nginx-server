@@ -1,0 +1,204 @@
+# file: nginx/defaults/main.yml
+
+nginx_install_method: "source"
+nginx_repo:           "http://hg.nginx.org/nginx"
+nginx_revision:       "release-1.8.0"
+
+nginx_user:           "www-data"
+nginx_group:          "www-data"
+nginx_uid:            33
+nginx_gid:            33
+
+nginx_dir:            "/etc/nginx"
+nginx_www_dir:        "/var/www"
+nginx_log_dir:        "/var/log/nginx"
+nginx_pid:            "/var/run/nginx.pid"
+
+nginx_prefix:         "/var/www"
+nginx_conf_path:      "{{nginx_dir}}/nginx.conf"
+nginx_sbin_path:      "/usr/local/sbin/nginx"
+
+
+
+
+
+nginx_module_flags:
+  http_stub_status_module:  "--with-http_stub_status_module"
+  http_ssl_module:          "--with-http_ssl_module"
+  openssl:                  "--with-openssl=/tmp/openssl-repo"
+  http_gzip_static_module:  "--with-http_gzip_static_module"
+  upload_progress_module:   "--add-module=/tmp/nginx-upload-progress-module-{{nginx_upload_progress_version}}"
+  headers_more_module:      "--add-module=/tmp/headers-more-nginx-module-{{nginx_headers_more_version}}"
+  http_auth_request_module: "--add-module=/tmp/ngx_http_auth_request_module-{{nginx_auth_request_release}}"
+  http_echo_module:         "--add-module=/tmp/echo-nginx-module-{{nginx_echo_version}}"
+  google_perftools_module:  "--with-google_perftools_module"
+  ipv6_module:              "--with-ipv6"
+  http_real_ip_module:      "--with-http_realip_module"
+  http_spdy_module:         "--with-http_spdy_module"
+  http_perl_module:         "--with-http_perl_module"
+  naxsi_module:             "--add-module=/tmp/naxsi-{{nginx_naxsi_version}}/naxsi_src"
+  ngx_pagespeed:            "--add-module=/tmp/ngx_pagespeed-release-{{nginx_ngx_pagespeed_version}}-beta"
+
+
+
+
+
+
+nginx_modules:
+  http_stub_status_module:  true
+  http_ssl_module:          true
+  openssl:                  true
+  http_gzip_static_module:  true
+  upload_progress_module:   true
+  headers_more_module:      true
+  http_auth_request_module: true
+  http_echo_module:         true
+  google_perftools_module:  true
+  ipv6_module:              true
+  http_real_ip_module:      true
+  http_spdy_module:         true
+  http_perl_module:         true
+  naxsi_module:             true
+  ngx_pagespeed:            true
+
+  mail_pop3_module:         false
+  mail_imap_module:         false
+  mail_smtp_module:         false
+
+
+nginx_default_configure_flags: "--prefix='{{nginx_www_dir}}' --conf-path='{{nginx_conf_path}}' --sbin-path='{{nginx_sbin_path}}' --error-log-path='{{nginx_log_dir}}/error.log' --http-log-path='{{nginx_log_dir}}/access.log' --pid-path='{{nginx_pid}}' --user='{{nginx_user}}' --group='{{nginx_group}}' "
+
+#nginx_configure_flags: "{{nginx_default_configure_flags}}{% for key, value in nginx_source_modules_included.items() %} {{value}}{% endfor %}{% for item in nginx_modules_excluded %} --without-{{item}}{% endfor %}"
+#nginx_configure_flags: "{{nginx_default_configure_flags}}{% for item in nginx_source_modules_included.items() %}{% value = nginx_module_flags[item] %}{{value}}{% endfor %}{% for item in nginx_modules_excluded %} --without-{{item}}{% endfor %}"
+
+#nginx_configure_flags: "{{nginx_default_configure_flags}}{% for key, enabled in nginx_modules.items() %}{{ enabled ? nginx_module_flags[key] : '--without-mail_pop3_module' }}{% endfor %}"
+nginx_configure_flags: "{{nginx_default_configure_flags}}{% for key, enabled in nginx_modules.items() %}{% if enabled %}{{ ' ' + nginx_module_flags[key] }}{% else %}{{ ' --without-' + key  }}{% endif %}{% endfor %}"
+
+
+
+
+
+
+
+# nginx.conf
+nginx_worker_processes: 4
+nginx_daemon_disable: no
+nginx_worker_rlimit_nofile: null
+nginx_error_log_options: null
+nginx_error_log_filename: 'error.log'
+nginx_worker_connections: 1024
+nginx_multi_accept: 'on'
+nginx_event: null
+nginx_charset: null
+nginx_disable_access_log: no
+nginx_server_tokens: null
+nginx_sendfile: 'on'
+nginx_keepalive: "on"
+nginx_keepalive_timeout: "30"
+nginx_client_body_timeout: "10"
+nginx_client_header_timeout: "10"
+nginx_send_timeout: "10"
+nginx_buffers: "on"
+nginx_client_body_buffer_size: "8k"
+nginx_client_header_buffer_size: "1k"
+nginx_client_max_body_size: "2m"
+nginx_large_client_header_buffers: "2 1k"
+nginx_server_names_hash_bucket_size: 64
+nginx_types_hash_max_size: 2048
+nginx_types_hash_bucket_size: 64
+nginx_proxy_read_timeout: null
+nginx_enable_rate_limiting: no
+nginx_rate_limiting_zone_name: "default"
+nginx_rate_limiting_backoff: "10m"
+nginx_rate_limit: "1r/s"
+nginx_access_logs:
+  - name: "main"
+    format: '$remote_addr - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent"'
+    options: null
+    filename: "access.log"
+
+# default site
+nginx_default_root: "{{nginx_www_dir}}/default"
+nginx_default_enable: yes
+
+# site inventory
+nginx_sites: []
+nginx_enabled_sites: []
+nginx_disabled_sites: []
+
+
+
+# gzip_module
+nginx_gzip: 'on'
+nginx_gzip_http_version: 1.1
+nginx_gzip_comp_level: 2
+nginx_gzip_proxied: expired no-cache no-store private auth
+nginx_gzip_vary: 'on'
+nginx_gzip_buffers: null
+nginx_gzip_min_length: 10240
+nginx_gzip_types:
+  - text/plain
+  - text/css
+  - text/xml
+  - text/csv
+  - text/javascript
+  - application/x-javascript
+  - application/xml
+  - application/xml+rss
+  - application/javascript
+  - application/postscript
+  - application/pdf
+  - application/ecmascript
+  - application/json
+  - image/svg+xml
+nginx_gzip_disable: "MSIE [1-6]\\."
+
+
+# http_stub_status_module configuration
+nginx_remote_ip_var: "remote_addr"
+nginx_authorized_ips:
+  - "127.0.0.1/32"
+
+# http_gzip_static_module configuration
+nginx_gzip_static: "off"
+
+
+# upload_progress_module configuration
+nginx_upload_progress_version: "0.9.0"
+nginx_upload_progress_javascript_output: yes
+nginx_upload_progress_zone_name: "proxied"
+nginx_upload_progress_zone_size: "1m"
+nginx_upload_progress_url: "https://github.com/masterzen/nginx-upload-progress-module/archive/v{{nginx_upload_progress_version}}.tar.gz"
+
+
+# headers_more_module configuration
+nginx_headers_more_version: "0.25"
+nginx_headers_more_url: "https://github.com/agentzh/headers-more-nginx-module/archive/v{{nginx_headers_more_version}}.tar.gz"
+
+
+# http_auth_request_module configuration
+nginx_auth_request_release: "662785733552"
+nginx_auth_request_url: "http://mdounin.ru/hg/ngx_http_auth_request_module/archive/{{nginx_auth_request_release}}.tar.gz"
+
+
+# http_echo_module configuration
+nginx_echo_version: "0.51"
+nginx_echo_url: "https://github.com/agentzh/echo-nginx-module/archive/v{{nginx_echo_version}}.tar.gz"
+
+
+# http_realip_module configuration
+nginx_realip_header: "X-Forwarded-For"
+nginx_realip_addresses: ["127.0.0.1"]
+nginx_realip_real_ip_recursive: "off"
+
+
+# naxsi_module configuration
+nginx_naxsi_version: "0.52"
+nginx_naxsi_url: "https://github.com/nbs-system/naxsi/archive/{{nginx_naxsi_version}}.tar.gz"
+
+# ngx_pagespeed_module configuration
+nginx_ngx_pagespeed_version: 1.9.32.3
+
+# OpenSSL configuration
+openssl_revision: "OpenSSL_1_0_2c"
+openssl_repo: "https://github.com/openssl/openssl"
