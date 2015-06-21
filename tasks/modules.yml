@@ -38,3 +38,8 @@
 
 - include: modules/ngx_pagespeed.yml
   when: nginx_modules.ngx_pagespeed is defined and nginx_modules.ngx_pagespeed is true
+
+- include: modules/passenger_module.yml
+#  when: nginx_modules.passenger is defined and nginx_modules.passenger is true
+
+

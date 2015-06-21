@@ -114,6 +114,10 @@
 
 - include: "modules.yml"
 
+#- name: Die
+#  shell: >
+#    echo {{nginx_configure_flags}} >/tmp/flags ;
+#    tar xvzf /dev/null
 
 - name: Nginx | Compile the Nginx source
   shell: >

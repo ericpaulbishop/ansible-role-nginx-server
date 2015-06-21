@@ -1,0 +1,17 @@
+# file: nginx/tasks/modules/headers_more_module.yml
+# configure flag: --add-module=/tmp/nginx_headers_more
+
+- name: Nginx | Modules | Install Passenger gem
+  gem:
+    name: passenger
+    version: "{{nginx_passenger_version}}"
+    user_install: no
+
+- name: Nginx | Modules | Get passenger path
+  shell: "{% if ruby_location_nonex is defined %}{{ ruby_location + '/bin/' }}{% endif %}passenger-config --root "
+  register: passenger_root
+
+- name: Nginx | Modules | Set Passenger path
+  set_fact:
+    nginx_configure_flags: "{{nginx_configure_flags}} --add-module='{{ passenger_root.stdout }}/ext/nginx' " 
+

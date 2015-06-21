@@ -37,7 +37,7 @@ nginx_module_flags:
   http_perl_module:         "--with-http_perl_module"
   naxsi_module:             "--add-module=/tmp/naxsi-{{nginx_naxsi_version}}/naxsi_src"
   ngx_pagespeed:            "--add-module=/tmp/ngx_pagespeed-release-{{nginx_ngx_pagespeed_version}}-beta"
-
+  passenger:                " "
 
 
 
@@ -57,6 +57,7 @@ nginx_modules:
   http_perl_module:         true
   naxsi_module:             true
   ngx_pagespeed:            true
+  passenger:                true
 
   mail_pop3_module:         false
   mail_imap_module:         false
@@ -195,3 +196,5 @@ nginx_ngx_pagespeed_version: 1.9.32.3
 # OpenSSL configuration
 openssl_revision: "OpenSSL_1_0_2c"
 openssl_repo: "https://github.com/openssl/openssl"
+
+nginx_passenger_version: "5.0.10"
