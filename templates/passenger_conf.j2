@@ -1,0 +1,10 @@
+passenger_ruby                  {{ nginx_passenger_ruby }};
+passenger_max_pool_size         {{ nginx_passenger_max_pool_size }};
+passenger_spawn_method          {{ nginx_passenger_spawn_method }};
+passenger_buffer_response       {{ nginx_passenger_buffer_response }};
+passenger_min_instances         {{ nginx_passenger_min_instances }};
+passenger_max_instances_per_app {{ nginx_passenger_max_instances_per_app }};
+passenger_pool_idle_time        {{ nginx_passenger_pool_idle_time }};
+passenger_max_requests          {{ nginx_passenger_max_requests }};
+
+{% if nginx_passenger_nodejs is defined %}passenger_nodejs                {{ nginx_passenger_nodejs }}{% endif %}

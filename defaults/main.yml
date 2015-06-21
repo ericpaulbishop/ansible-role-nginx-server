@@ -21,7 +21,7 @@ nginx_sbin_path:      "/usr/local/sbin/nginx"
 
 
 
-nginx_module_flags:
+nginx_module_include_flags:
   http_stub_status_module:  "--with-http_stub_status_module"
   http_ssl_module:          "--with-http_ssl_module"
   openssl:                  "--with-openssl=/tmp/openssl-repo"
@@ -38,6 +38,13 @@ nginx_module_flags:
   naxsi_module:             "--add-module=/tmp/naxsi-{{nginx_naxsi_version}}/naxsi_src"
   ngx_pagespeed:            "--add-module=/tmp/ngx_pagespeed-release-{{nginx_ngx_pagespeed_version}}-beta"
   passenger:                " "
+
+
+
+nginx_module_exclude_flags:
+  mail_pop3_module:         " --without-mail_pop3_module "
+  mail_imap_module:         " --without-mail_imap_module "
+  mail_smtp_module:         " --without-mail_smtp_module "
 
 
 
@@ -66,7 +73,7 @@ nginx_modules:
 
 nginx_default_configure_flags: "--prefix='{{nginx_www_dir}}' --conf-path='{{nginx_conf_path}}' --sbin-path='{{nginx_sbin_path}}' --error-log-path='{{nginx_log_dir}}/error.log' --http-log-path='{{nginx_log_dir}}/access.log' --pid-path='{{nginx_pid}}' --user='{{nginx_user}}' --group='{{nginx_group}}' "
 
-nginx_configure_flags: "{{nginx_default_configure_flags}}{% for key, enabled in nginx_modules.items() %}{% if enabled %}{{ ' ' + nginx_module_flags[key] }}{% else %}{{ ' --without-' + key  }}{% endif %}{% endfor %}"
+nginx_configure_flags: "{{nginx_default_configure_flags}}{% for key, enabled in nginx_modules.items() %}{% if enabled %}{{ ' ' + nginx_module_include_flags[key] }}{% elif key in nginx_module_exclude_flags.keys()  %}{{ ' ' + nginx_module_exclude_flags[key]   }}{% endif %}{% endfor %}"
 
 
 
@@ -197,4 +204,13 @@ nginx_ngx_pagespeed_version: 1.9.32.3
 openssl_revision: "OpenSSL_1_0_2c"
 openssl_repo: "https://github.com/openssl/openssl"
 
+# Passenger configuration
 nginx_passenger_version: "5.0.10"
+
+nginx_passenger_max_pool_size:         6
+nginx_passenger_spawn_method:          'smart-lv2'
+nginx_passenger_buffer_response:       'on'
+nginx_passenger_min_instances:         1
+nginx_passenger_max_instances_per_app: 0
+nginx_passenger_pool_idle_time:        300
+nginx_passenger_max_requests:          0
