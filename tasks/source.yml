@@ -110,8 +110,11 @@
     then cp '/tmp/nginx-repo/auto/configure' '/tmp/nginx-repo/configure' ; 
     fi
 
+- include: "modules_prepare.yml"
 
-- include: "modules.yml"
+- include: "modules_install.yml"
+
+- include: "modules_configure.yml"
 
 #- name: Die
 #  shell: >

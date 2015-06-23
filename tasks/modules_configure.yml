@@ -1,0 +1,46 @@
+---
+# file: nginx/tasks/modules_configure.yml
+
+- include: modules_configure/http_stub_status_module.yml
+  when: nginx_modules.http_stub_status_module is defined and nginx_modules.http_stub_status_module == true
+
+- include: modules_configure/http_ssl_module.yml
+  when: nginx_modules.http_ssl_module is defined and nginx_modules.http_ssl_module == true
+
+- include: modules_configure/http_gzip_static_module.yml
+  when: nginx_modules.http_gzip_static_module is defined and nginx_modules.http_gzip_static_module == true
+
+- include: modules_configure/upload_progress_module.yml
+  when: nginx_modules.upload_progress_module is defined and nginx_modules.upload_progress_module == true
+
+- include: modules_configure/headers_more_module.yml
+  when: nginx_modules.headers_more_module is defined and nginx_modules.headers_more_module == true
+
+- include: modules_configure/http_auth_request_module.yml
+  when: nginx_modules.http_auth_request_module is defined and nginx_modules.http_auth_request_module == true
+
+- include: modules_configure/http_echo_module.yml
+  when: nginx_modules.http_echo_module is defined and nginx_modules.http_echo_module == true
+
+- include: modules_configure/google_perftools_module.yml
+  when: nginx_modules.google_perftools_module is defined and nginx_modules.google_perftools_module == true
+
+- include: modules_configure/ipv6_module.yml
+  when: nginx_modules.ipv6_module is defined and nginx_modules.ipv6_module == true
+
+- include: modules_configure/http_realip_module.yml
+  when: nginx_modules.http_realip_module is defined and nginx_modules.http_realip_module == true
+
+- include: modules_configure/http_spdy_module.yml
+  when: nginx_modules.http_spdy_module is defined and nginx_modules.http_spdy_module == true 
+
+- include: modules_configure/naxsi_module.yml
+  when: nginx_modules.naxsi_module is defined and nginx_modules.naxsi_module == true
+
+- include: modules_configure/ngx_pagespeed.yml
+  when: nginx_modules.ngx_pagespeed is defined and nginx_modules.ngx_pagespeed == true
+
+- include: modules_configure/passenger_module.yml
+  when: nginx_modules.passenger is defined and nginx_modules.passenger == true
+
+

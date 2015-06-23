@@ -1,13 +1,16 @@
-# file: nginx/tasks/modules/headers_more_module.yml
-# configure flag: --add-module=/tmp/nginx_headers_more
+---
+- name: Nginx | Modules | Get passenger path
+  shell: "{% if ruby_location is defined %}{{ ruby_location + '/bin/' }}{% endif %}passenger-config --root "
+  register: passenger_root
 
 - name: Nginx | Modules | Install Passenger gem
   gem:
     name: passenger
     version: "{{nginx_passenger_version}}"
     user_install: no
+  when: passenger_root.stdout == ""
 
-- name: Nginx | Modules | Get passenger path
+- name: Nginx | Modules | Get passenger path if not yet defined
   shell: "{% if ruby_location is defined %}{{ ruby_location + '/bin/' }}{% endif %}passenger-config --root "
   register: passenger_root
 
@@ -15,7 +18,7 @@
   shell: "which ruby || echo '' "
   register: environment_ruby_path
 
-- name: Nginx | Modules | Set Passenger path
+- name: Nginx | Modules | Set Passenger module path
   set_fact:
     nginx_configure_flags: "{{nginx_configure_flags}} --add-module='{{ passenger_root.stdout }}/ext/nginx' "
   when: passenger_root.stdout != "" 
@@ -24,12 +27,4 @@
   set_fact:
     nginx_passenger_ruby: "{% if ruby_location is defined  %}{{ ruby_location + '/bin/ruby'}}{% else %}{{ environment_ruby_path.stdout }}{% endif %}"
   when: ruby_location is defined or environment_ruby_path.stdout != ""
-
-- name: Nginx | create Passenger Config file
-  template:
-    src: ../../templates/passenger_conf.j2
-    dest: "{{nginx_dir}}/conf.d/passenger.conf"
-    owner: root
-    group: root
-    mode: 0644
 

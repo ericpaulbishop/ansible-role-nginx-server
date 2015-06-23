@@ -1,0 +1,46 @@
+---
+# file: nginx/tasks/modules_install.yml
+
+- include: modules_install/http_stub_status_module.yml
+  when: nginx_modules.http_stub_status_module is defined and nginx_modules.http_stub_status_module == true
+
+- include: modules_install/http_ssl_module.yml
+  when: nginx_modules.http_ssl_module is defined and nginx_modules.http_ssl_module == true
+
+- include: modules_install/http_gzip_static_module.yml
+  when: nginx_modules.http_gzip_static_module is defined and nginx_modules.http_gzip_static_module == true
+
+- include: modules_install/upload_progress_module.yml
+  when: nginx_modules.upload_progress_module is defined and nginx_modules.upload_progress_module == true
+
+- include: modules_install/headers_more_module.yml
+  when: nginx_modules.headers_more_module is defined and nginx_modules.headers_more_module == true
+
+- include: modules_install/http_auth_request_module.yml
+  when: nginx_modules.http_auth_request_module is defined and nginx_modules.http_auth_request_module == true
+
+- include: modules_install/http_echo_module.yml
+  when: nginx_modules.http_echo_module is defined and nginx_modules.http_echo_module == true
+
+- include: modules_install/google_perftools_module.yml
+  when: nginx_modules.google_perftools_module is defined and nginx_modules.google_perftools_module == true
+
+- include: modules_install/ipv6_module.yml
+  when: nginx_modules.ipv6_module is defined and nginx_modules.ipv6_module == true
+
+- include: modules_install/http_realip_module.yml
+  when: nginx_modules.http_realip_module is defined and nginx_modules.http_realip_module == true
+
+- include: modules_install/http_spdy_module.yml
+  when: nginx_modules.http_spdy_module is defined and nginx_modules.http_spdy_module == true 
+
+- include: modules_install/naxsi_module.yml
+  when: nginx_modules.naxsi_module is defined and nginx_modules.naxsi_module == true
+
+- include: modules_install/ngx_pagespeed.yml
+  when: nginx_modules.ngx_pagespeed is defined and nginx_modules.ngx_pagespeed == true
+
+- include: modules_install/passenger_module.yml
+  when: nginx_modules.passenger is defined and nginx_modules.passenger == true
+
+

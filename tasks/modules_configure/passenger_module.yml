@@ -1,0 +1,9 @@
+---
+- name: Nginx | create Passenger Config file
+  template:
+    src: ../../templates/modules/passenger_conf.j2
+    dest: "{{nginx_dir}}/conf.d/passenger.conf"
+    owner: root
+    group: root
+    mode: 0644
+
