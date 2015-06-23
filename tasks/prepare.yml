@@ -1,0 +1,23 @@
+---
+
+- include: "modules_prepare.yml"
+
+- name: Nginx Prepare | Make sure the nginx directory exists
+  file:
+    path: "{{nginx_dir}}"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: Nginx Prepare |  Get old configuration checksum
+  shell: "if [ -e '{{nginx_dir}}/.nginx_compile_configuration' ] ; then sha256sum '{{nginx_dir}}/.nginx_compile_configuration' | awk ' { print $1 } ' ; else echo 'N/A' ; fi"
+  register: old_checksum
+
+- name: Nginx Prepare | Save new configuration
+  shell: " echo \"{{nginx_revision}}\\n{{nginx_repo}}\\n{{nginx_configure_flags}}\\n\" > '{{nginx_dir}}/.nginx_compile_configuration.new'"
+
+- name: Nginx Prepare |  Get old configuration checksum
+  shell: "if [ -e '{{nginx_dir}}/.nginx_compile_configuration.new' ] ; then sha256sum '{{nginx_dir}}/.nginx_compile_configuration.new'  | awk ' { print $1 } '  ; else echo 'N/A' ; fi"
+  register: new_checksum
+

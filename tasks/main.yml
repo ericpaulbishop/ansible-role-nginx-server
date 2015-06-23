@@ -1,2 +1,8 @@
-- include: 'install.yml'
+---
+- include: 'prepare.yml'
 
+- include: 'install.yml'
+  when: old_checksum.stdout != new_checksum.stdout
+
+- name: Set current checksum
+  command: "mv '{{nginx_dir}}/.nginx_compile_configuration.new' '{{nginx_dir}}/.nginx_compile_configuration'"
