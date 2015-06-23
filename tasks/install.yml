@@ -1,0 +1,142 @@
+
+# If Nginx or php5-fpm  running stop them
+- name: Nginx | Shut down nginx if it is running
+  command: /etc/init.d/nginx stop 
+  args:
+    removes: /etc/init.d/nginx    # kind of a hack, but prevents it from running if init script does not exist
+
+- name: Nginx | Shut down php5-fpm if it is running
+  command: /etc/init.d/php5-fpm stop
+  args:
+    removes: /etc/init.d/php5-fpm # kind of a hack, but prevents it from running if init script does not exist
+
+
+# Nginx User/Group
+- name: Nginx | Make sure the nginx group is present
+  group:
+    gid: "{{nginx_gid}}"
+    name: "{{nginx_group}}"
+    state: present
+
+- name: Nginx | Make sure the www directory is present
+  file:
+    path: "{{nginx_www_dir}}"
+    state: directory
+
+- name: Nginx | Make sure the nginx user is present
+  user:
+    name: "{{nginx_user}}"
+    uid: "{{nginx_uid}}"
+    group: "{{nginx_group}}"
+    comment: "Nginx user"
+    home: "{{nginx_www_dir}}"
+    shell: /bin/false
+    state: present
+    system: yes
+
+- name: Nginx | Set the right directory permissions for the www directory
+  file:
+    path: "{{nginx_www_dir}}"
+    owner: "{{nginx_user}}"
+    group: "{{nginx_group}}"
+    mode: 0755
+    state: directory
+
+- name: Nginx | Check the current password expiry
+  command: grep {{nginx_user}} /etc/shadow
+  sudo: yes
+  register: nginx_old_password
+  changed_when: false
+
+- name: Nginx | Set the right expiration on the nginx user
+  shell: "chage -I -1 -E -1 -m -1 -M -1 -W -1 -E -1 {{nginx_user}} && grep {{nginx_user}} /etc/shadow"
+  sudo: yes
+  register: nginx_new_password
+  changed_when: nginx_new_password.stdout != nginx_old_password.stdout
+
+# Nginx directories
+
+- name: Nginx | Make sure the nginx directory exists
+  file:
+    path: "{{nginx_dir}}"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: Nginx | Make sure the nginx log directory exists
+  file:
+    path: "{{nginx_log_dir}}"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: Nginx | Make sure the sites-available, sites-enabled and conf.d directories exist
+  file:
+    path: "{{nginx_dir}}/{{item}}"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+  with_items: ["sites-available", "sites-enabled", "conf.d"]
+
+
+# Build Dependencies
+
+- name: Nginx | Make sure the Nginx build dependencies are installed
+  apt:
+    update_cache: yes
+    pkg: "{{item}}"
+    state: present
+  with_items:
+    - perl
+    - libperl-dev
+    - build-essential
+    - libpcre3
+    - libpcre3-dev
+    - libssl-dev
+
+- name: Nginx | Clone the Nginx repo
+  hg:
+    repo:     "{{nginx_repo}}"
+    dest:     "/tmp/nginx-repo"
+    revision: "{{nginx_revision}}"
+    purge:    "yes"
+
+- name: Nginx | test for presence of configure script
+  shell: >
+    if [ ! -e  '/tmp/nginx-repo/configure' ] && [ -e '/tmp/nginx-repo/auto/configure' ] ; 
+    then cp '/tmp/nginx-repo/auto/configure' '/tmp/nginx-repo/configure' ; 
+    fi
+
+- include: "modules_prepare.yml"
+
+- include: "modules_install.yml"
+
+- include: "modules_configure.yml"
+
+#- name: Die
+#  shell: >
+#    echo {{nginx_configure_flags}} >/tmp/flags ;
+#    tar xvzf /dev/null
+
+- name: Nginx | Compile the Nginx source
+  shell: >
+    cd /tmp/nginx-repo &&
+    ./configure {{nginx_configure_flags}} &&
+    make &&
+    make install
+
+      
+# restart
+- name: Nginx | Start nginx
+  command: /etc/init.d/nginx start 
+  args:
+    removes: /etc/init.d/nginx    # kind of a hack, but prevents it from running if init script does not exist
+
+- name: Nginx | Start php5-fpm
+  command: /etc/init.d/php5-fpm start
+  args:
+    removes: /etc/init.d/php5-fpm # kind of a hack, but prevents it from running if init script does not exist
+
