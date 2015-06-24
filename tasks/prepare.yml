@@ -14,10 +14,24 @@
   shell: "if [ -e '{{nginx_dir}}/.nginx_compile_configuration' ] ; then sha256sum '{{nginx_dir}}/.nginx_compile_configuration' | awk ' { print $1 } ' ; else echo 'N/A' ; fi"
   register: old_checksum
 
+- name: Nginx Prepare |  Get old user configuration checksum
+  shell: "if [ -e '{{nginx_dir}}/.nginx_user_configuration' ] ; then sha256sum '{{nginx_dir}}/.nginx_user_configuration' | awk ' { print $1 } ' ; else echo 'N/A' ; fi"
+  register: old_user_checksum
+
 - name: Nginx Prepare | Save new configuration
   shell: " echo \"{{nginx_revision}}\\n{{nginx_repo}}\\n{{nginx_configure_flags}}\\n\" > '{{nginx_dir}}/.nginx_compile_configuration.new'"
 
-- name: Nginx Prepare |  Get old configuration checksum
+- name: Nginx Prepare | Save new user configuration
+  shell: " echo \"{{nginx_user}}\\n{{nginx_group}}\\n{{nginx_uid}}\\n{{nginx_gid}}\\n\" > '{{nginx_dir}}/.nginx_user_configuration.new'"
+
+
+- name: Nginx Prepare |  Get new configuration checksum
   shell: "if [ -e '{{nginx_dir}}/.nginx_compile_configuration.new' ] ; then sha256sum '{{nginx_dir}}/.nginx_compile_configuration.new'  | awk ' { print $1 } '  ; else echo 'N/A' ; fi"
   register: new_checksum
+
+- name: Nginx Prepare |  Get new user configuration checksum
+  shell: "if [ -e '{{nginx_dir}}/.nginx_user_configuration.new' ] ; then sha256sum '{{nginx_dir}}/.nginx_user_configuration.new'  | awk ' { print $1 } '  ; else echo 'N/A' ; fi"
+  register: new_user_checksum
+
+
 
