@@ -20,8 +20,9 @@ events {
 {% endif %}
 }
 
+
 http {
-{% if nginx_modules_included.naxsi_module is defined %}
+{% if nginx_modules.naxsi_module is defined and nginx_modules.naxsi_module == true %}
   include       {{nginx_dir}}/naxsi_core.rules;
 {% endif %}
 

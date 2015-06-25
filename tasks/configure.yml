@@ -1,0 +1,83 @@
+---
+
+- name: Nginx Configure | Install the init script
+  template:
+    src: nginx.init.j2
+    dest: /etc/init.d/nginx
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Nginx Configure | Register Nginx as a service
+  service:
+    name: nginx
+    enabled: yes
+
+
+- name: Nginx Configure | Install the nxensite and nxdissite scripts
+  template:
+    src: "{{item}}.j2"
+    dest: "/usr/sbin/{{item}}"
+    owner: root
+    group: root
+    mode: 0755
+  with_items: ["nxensite", "nxdissite"]
+
+
+- name: Nginx Configure | Make sure the mime.types file is up to date
+  copy:
+    src: mime.types
+    dest: "{{nginx_dir}}/mime.types"
+    owner: root
+    group: root
+    mode: 0644
+
+
+- name: Nginx Configure | Make sure the Nginx configuration is updated
+  template:
+    src: nginx.conf.j2
+    dest: "{{nginx_dir}}/nginx.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart nginx
+
+- include: "modules_configure.yml"
+
+#sites
+
+#- name: Nginx Configure | Update the configurations for the sites inventory
+#  template:
+#    src: site.j2
+#    dest: "{{nginx_dir}}/sites-available/{{item.server.name}}"
+#  with_items: nginx_sites
+#  when: nginx_sites|lower != 'none'
+#
+#- name: Nginx Configure | Create virtual sites directories
+#  file:
+#    path: "{{nginx_www_dir}}/{{item.server.name}}"
+#    state: directory
+#    owner: "{{nginx_user}}"
+#    group: "{{nginx_user}}"
+#    mode: 0755
+#  with_items: nginx_sites
+#
+#- name: Nginx Configure  | Enable sites
+#  file:
+#    path: "{{nginx_dir}}/sites-enabled/{{item}}"
+#    src: "{{nginx_dir}}/sites-available/{{item}}"
+#    state: link
+#  with_items: nginx_enabled_sites
+#  notify:
+#    - reload nginx
+#  when: nginx_enabled_sites|lower != 'none'
+#
+#- name: Nginx Configure | Disable sites
+#  file:
+#    path: "{{nginx_dir}}/sites-enabled/{{item}}"
+#    state: absent
+#  with_items: nginx_disabled_sites
+#  notify:
+#    - reload nginx
+#  when: nginx_disabled_sites|lower != 'none'
