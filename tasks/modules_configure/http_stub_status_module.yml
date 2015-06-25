@@ -11,9 +11,3 @@
     group: root
     mode: 0644
 
-- name: Nginx | Modules | Enable the status stub sites-available
-  file:
-    path: "{{nginx_dir}}/sites-enabled/nginx_status"
-    src: "{{nginx_dir}}/sites-available/nginx_status"
-    state: link
-    force: yes
