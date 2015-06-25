@@ -35,6 +35,7 @@ nginx_module_include_flags:
   http_real_ip_module:      "--with-http_realip_module"
   http_spdy_module:         "--with-http_spdy_module"
   http_perl_module:         "--with-http_perl_module"
+  http_sub_module:          "--with-http_sub_module"
   naxsi_module:             "--add-module=/tmp/naxsi-{{nginx_naxsi_version}}/naxsi_src"
   ngx_pagespeed:            "--add-module=/tmp/ngx_pagespeed-release-{{nginx_ngx_pagespeed_version}}-beta"
   passenger:                " "
@@ -62,6 +63,7 @@ nginx_modules:
   http_real_ip_module:      true
   http_spdy_module:         true
   http_perl_module:         true
+  http_sub_module:          true
   naxsi_module:             true
   ngx_pagespeed:            true
   passenger:                true
