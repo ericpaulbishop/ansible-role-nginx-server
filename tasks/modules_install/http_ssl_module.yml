@@ -6,7 +6,6 @@
     repo: "{{openssl_repo}}"
     dest: "/tmp/openssl-repo"
     version: "{{openssl_revision}}"
-  when: nginx_source_modules_included.openssl is defined
 
 
 
