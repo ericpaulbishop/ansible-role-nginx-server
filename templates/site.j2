@@ -1,5 +1,10 @@
 server {
 
+{% set abc = dict() %}
+{% set abc['test'] = 'tester' %}
+server_name {{abc['test']}};
+
+{#
 {% for k,v in item.server.iteritems() %}
 {% if k.find('location') == -1 and k != 'name' %}
   {{ k }} {{ v }};
@@ -13,5 +18,6 @@ server {
 {% endfor %}
   }
 {% endfor %}
+#}
 
 }

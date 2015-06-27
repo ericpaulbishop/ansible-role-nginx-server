@@ -1,0 +1,20 @@
+---
+nginx_site_template_special_variables:
+  server_name:                  true
+  listen:                       true
+  ssl:                          true
+  ssl_certificate:              true
+  ssl_certificate_key:          true
+  ssl_session_cache:            true
+  ssl_protocols:                true
+  ssl_ciphers:                  true
+  ssl_prefer_server_ciphers:    true
+  disable_gnu_terry_pratchett:  true 
+  locations:                    true
+  enable_php:                   true
+  php_location_match:           true
+  php_fastcgi_socket:           true
+  enable_fcgiwrap:              true
+  fcgiwrap_location_match:      true
+  fcgiwrap_fastcgi_socket:      true
+
