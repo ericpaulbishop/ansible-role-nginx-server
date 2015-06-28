@@ -116,12 +116,21 @@
 
 - name: Nginx | test for presence of configure script
   shell: >
-    if [ ! -e  '/tmp/nginx-repo/configure' ] && [ -e '/tmp/nginx-repo/auto/configure' ] ; 
-    then cp '/tmp/nginx-repo/auto/configure' '/tmp/nginx-repo/configure' ; 
+    if [ ! -e  '/tmp/nginx-repo/configure' ] && [ -e '/tmp/nginx-repo/auto/configure' ] ; then
+      cp '/tmp/nginx-repo/auto/configure' '/tmp/nginx-repo/configure' ; 
     fi
 
 
 - include: "modules_install.yml"
+
+- name: Nginx | Set Server Name
+  shell: >
+    cd /tmp/nginx-repo && 
+    perl -pi -e "s/\"Server:.*CRLF/\"Server: {{nginx_server_string}}\" CRLF/g"             "src/http/ngx_http_header_filter_module.c" &&
+    perl -pi -e "s/\"Server:[\t ]+nginx\"/\"Server: {{nginx_server_string}}\"/g"           "src/http/ngx_http_header_filter_module.c" &&
+    perl -pi -e "s/\<hr\>\<center\>.*<\/center\>/<hr><center>Server Response<\/center>/g"  "src/http/ngx_http_special_response.c"
+  when: nginx_server_string != ""
+
 
 
 - name: Nginx | Compile the Nginx source

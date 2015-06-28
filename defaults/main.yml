@@ -19,6 +19,11 @@ nginx_sbin_path:      "/usr/local/sbin/nginx"
 
 
 
+nginx_use_randomized_server_string:  false
+nginx_randomized_server_string:      ""
+nginx_use_custom_server_string:      false
+nginx_custom_server_string:          ""
+
 
 
 nginx_module_include_flags:
