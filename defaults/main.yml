@@ -18,72 +18,34 @@ nginx_conf_path:      "{{nginx_dir}}/nginx.conf"
 nginx_sbin_path:      "/usr/local/sbin/nginx"
 
 
-
+# set custom server string?
 nginx_use_randomized_server_string:  false
 nginx_randomized_server_string:      ""
 nginx_use_custom_server_string:      false
 nginx_custom_server_string:          ""
 
 
-
-nginx_module_include_flags:
-  http_stub_status_module:  "--with-http_stub_status_module"
-  http_ssl_module:          "--with-http_ssl_module"
-  openssl:                  "--with-openssl=/tmp/openssl-repo"
-  http_gzip_static_module:  "--with-http_gzip_static_module"
-  upload_progress_module:   "--add-module=/tmp/nginx-upload-progress-module-{{nginx_upload_progress_version}}"
-  headers_more_module:      "--add-module=/tmp/headers-more-nginx-module-{{nginx_headers_more_version}}"
-  http_auth_request_module: "--add-module=/tmp/ngx_http_auth_request_module-{{nginx_auth_request_release}}"
-  http_echo_module:         "--add-module=/tmp/echo-nginx-module-{{nginx_echo_version}}"
-  google_perftools_module:  "--with-google_perftools_module"
-  ipv6_module:              "--with-ipv6"
-  http_real_ip_module:      "--with-http_realip_module"
-  http_spdy_module:         "--with-http_spdy_module"
-  http_perl_module:         "--with-http_perl_module"
-  http_sub_module:          "--with-http_sub_module"
-  naxsi_module:             "--add-module=/tmp/naxsi-{{nginx_naxsi_version}}/naxsi_src"
-  ngx_pagespeed:            "--add-module=/tmp/ngx_pagespeed-release-{{nginx_ngx_pagespeed_version}}-beta"
-  passenger:                " "
-
-
-
-nginx_module_exclude_flags:
-  mail_pop3_module:         " --without-mail_pop3_module "
-  mail_imap_module:         " --without-mail_imap_module "
-  mail_smtp_module:         " --without-mail_smtp_module "
-
-
-
-nginx_modules:
-  http_stub_status_module:  true
-  http_ssl_module:          true
-  openssl:                  true
-  http_gzip_static_module:  true
-  upload_progress_module:   true
-  headers_more_module:      true
-  http_auth_request_module: true
-  http_echo_module:         true
-  google_perftools_module:  true
-  ipv6_module:              true
-  http_real_ip_module:      true
-  http_spdy_module:         true
-  http_perl_module:         true
-  http_sub_module:          true
-  naxsi_module:             true
-  ngx_pagespeed:            true
-  passenger:                true
-
-  mail_pop3_module:         false
-  mail_imap_module:         false
-  mail_smtp_module:         false
-
-
-nginx_default_configure_flags: "--prefix='{{nginx_www_dir}}' --conf-path='{{nginx_conf_path}}' --sbin-path='{{nginx_sbin_path}}' --error-log-path='{{nginx_log_dir}}/error.log' --http-log-path='{{nginx_log_dir}}/access.log' --pid-path='{{nginx_pid}}' --user='{{nginx_user}}' --group='{{nginx_group}}' "
-
-nginx_configure_flags: "{{nginx_default_configure_flags}}{% for key, enabled in nginx_modules.items() %}{% if enabled %}{{ ' ' + nginx_module_include_flags[key] }}{% elif key in nginx_module_exclude_flags.keys()  %}{{ ' ' + nginx_module_exclude_flags[key]   }}{% endif %}{% endfor %}"
-
-
-
+# modules
+nginx_include_http_stub_status_module:  true
+nginx_include_http_ssl_module:          true
+nginx_include_openssl:                  true
+nginx_include_http_gzip_static_module:  true
+nginx_include_upload_progress_module:   true
+nginx_include_headers_more_module:      true
+nginx_include_http_auth_request_module: true
+nginx_include_http_echo_module:         true
+nginx_include_google_perftools_module:  true
+nginx_include_ipv6_module:              true
+nginx_include_http_real_ip_module:      true
+nginx_include_http_spdy_module:         true
+nginx_include_http_perl_module:         true
+nginx_include_http_sub_module:          true
+nginx_include_naxsi_module:             true
+nginx_include_ngx_pagespeed:            true
+nginx_include_passenger:                false
+nginx_include_mail_pop3_module:         false
+nginx_include_mail_imap_module:         false
+nginx_include_mail_smtp_module:         false
 
 
 
@@ -125,13 +87,37 @@ nginx_access_logs:
     options: null
     filename: "access.log"
 
-# default site
-nginx_default_root: "{{nginx_www_dir}}/default"
-nginx_default_enable: yes
 
-# site inventory
-nginx_sites: []
-nginx_enabled_sites: []
+# default site
+nginx_example_root: "{{nginx_www_dir}}/example"
+
+
+# sites
+nginx_sites: 
+  - server:
+      name: example
+      listen: 80
+      root: "{{nginx_www_dir}}/example"
+      error_page:
+        - "400 406 407 409 410 411 412 413 414 415 416 417 418 422 423 424 425 426 444 449 450 490 	/error/400.html"
+        - "401	/error/401.html"
+        - "402	/error/402.html"
+        - "403	/error/403.html"
+        - "404	/error/404.html"
+        - "405	/error/405.html"
+        - "408	/error/408.html"
+        - "500 506 507 509 510	/error/500.html"
+        - "501	/error/501.html"
+        - "502	/error/502.html"
+        - "503	/error/503.html"
+        - "504	/error/504.html"
+        - "505	/error/505.html"
+      locations:
+        - location:
+            match: "/error/403.html"
+            allow: "all"
+
+nginx_enabled_sites: [ 'example' ]
 nginx_disabled_sites: []
 
 
@@ -221,3 +207,74 @@ nginx_passenger_min_instances:         1
 nginx_passenger_max_instances_per_app: 0
 nginx_passenger_pool_idle_time:        300
 nginx_passenger_max_requests:          0
+
+
+
+
+
+### There may be reason to over-ride the following variables, but generally they shouldn't change
+
+
+
+nginx_module_include_flags:
+  http_stub_status_module:  "--with-http_stub_status_module"
+  http_ssl_module:          "--with-http_ssl_module"
+  openssl:                  "--with-openssl=/tmp/openssl-repo"
+  http_gzip_static_module:  "--with-http_gzip_static_module"
+  upload_progress_module:   "--add-module=/tmp/nginx-upload-progress-module-{{nginx_upload_progress_version}}"
+  headers_more_module:      "--add-module=/tmp/headers-more-nginx-module-{{nginx_headers_more_version}}"
+  http_auth_request_module: "--add-module=/tmp/ngx_http_auth_request_module-{{nginx_auth_request_release}}"
+  http_echo_module:         "--add-module=/tmp/echo-nginx-module-{{nginx_echo_version}}"
+  google_perftools_module:  "--with-google_perftools_module"
+  ipv6_module:              "--with-ipv6"
+  http_real_ip_module:      "--with-http_realip_module"
+  http_spdy_module:         "--with-http_spdy_module"
+  http_perl_module:         "--with-http_perl_module"
+  http_sub_module:          "--with-http_sub_module"
+  naxsi_module:             "--add-module=/tmp/naxsi-{{nginx_naxsi_version}}/naxsi_src"
+  ngx_pagespeed:            "--add-module=/tmp/ngx_pagespeed-release-{{nginx_ngx_pagespeed_version}}-beta"
+  passenger:                " "
+
+
+
+nginx_module_exclude_flags:
+  mail_pop3_module:         " --without-mail_pop3_module "
+  mail_imap_module:         " --without-mail_imap_module "
+  mail_smtp_module:         " --without-mail_smtp_module "
+
+
+
+
+
+nginx_modules:
+  http_stub_status_module:  "{{nginx_include_http_stub_status_module}}"
+  http_ssl_module:          "{{nginx_include_http_ssl_module}}"
+  openssl:                  "{{nginx_include_openssl}}"
+  http_gzip_static_module:  "{{nginx_include_http_gzip_static_module}}"
+  upload_progress_module:   "{{nginx_include_upload_progress_module}}"
+  headers_more_module:      "{{nginx_include_headers_more_module}}"
+  http_auth_request_module: "{{nginx_include_http_auth_request_module}}"
+  http_echo_module:         "{{nginx_include_http_echo_module}}"
+  google_perftools_module:  "{{nginx_include_google_perftools_module}}"
+  ipv6_module:              "{{nginx_include_ipv6_module}}"
+  http_real_ip_module:      "{{nginx_include_http_real_ip_module}}"
+  http_spdy_module:         "{{nginx_include_http_spdy_module}}"
+  http_perl_module:         "{{nginx_include_http_perl_module}}"
+  http_sub_module:          "{{nginx_include_http_perl_module}}"
+  naxsi_module:             "{{nginx_include_http_sub_module}}"
+  ngx_pagespeed:            "{{nginx_include_naxsi_module}}"
+  passenger:                "{{nginx_include_passenger}}"
+  mail_pop3_module:         "{{nginx_include_mail_pop3_module}}"
+  mail_imap_module:         "{{nginx_include_mail_imap_module}}"
+  mail_smtp_module:         "{{nginx_include_mail_smtp_module}}"
+
+
+nginx_default_configure_flags: "--prefix='{{nginx_www_dir}}' --conf-path='{{nginx_conf_path}}' --sbin-path='{{nginx_sbin_path}}' --error-log-path='{{nginx_log_dir}}/error.log' --http-log-path='{{nginx_log_dir}}/access.log' --pid-path='{{nginx_pid}}' --user='{{nginx_user}}' --group='{{nginx_group}}' "
+
+nginx_configure_flags: "{{nginx_default_configure_flags}}{% for key, enabled in nginx_modules.items() %}{% if enabled and nginx_module_include_flags[key] is defined %}{{ ' ' + nginx_module_include_flags[key] }}{% elif not enabled and key in nginx_module_exclude_flags.keys()  %}{{ ' ' + nginx_module_exclude_flags[key]   }}{% endif %}{% endfor %}"
+
+
+
+
+
+
