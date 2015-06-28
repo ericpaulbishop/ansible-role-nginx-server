@@ -1,10 +1,17 @@
 # file: nginx/tasks/modules/http_gzip_static_module.yml
 # configure flag: --with-http_gzip_static_module
 
-- name: Nginx | Modules | Update the http_gzip_static_module configuration
+- name: Nginx Configure | Modules | Update the http_gzip_static_module configuration when enabled
   template:
     src: ../../templates/modules/http_gzip_static.conf.j2
     dest: "{{nginx_dir}}/conf.d/http_gzip_static.conf"
     owner: root
     group: root
     mode: 0644
+  when: nginx_modules.http_gzip_static_module is defined and nginx_modules.http_gzip_static_module == true
+
+- name: Nginx Configure | Modules | Remove the http_gzip_static_module configuration when disabled
+  file:
+    path: "{{nginx_dir}}/conf.d/http_gzip_static.conf"
+    state: absent
+  when: nginx_modules.http_gzip_static_module is not defined or nginx_modules.http_gzip_static_module == false

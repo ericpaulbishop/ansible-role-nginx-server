@@ -1,9 +1,17 @@
 ---
-- name: Nginx | create Passenger Config file
+- name: Nginx Configure | Modules | Create Passenger config file when enabled
   template:
     src: ../../templates/modules/passenger_conf.j2
     dest: "{{nginx_dir}}/conf.d/passenger.conf"
     owner: root
     group: root
     mode: 0644
+  when: nginx_modules.passenger is defined and nginx_modules.passenger == true
+
+- name: Nginx Configure | Modules | Remove Passenger config file when disabled
+  file:
+    path: "{{nginx_dir}}/conf.d/passenger.conf"
+    state: absent
+  when: nginx_modules.passenger is not defined or nginx_modules.passenger == false
+
 
