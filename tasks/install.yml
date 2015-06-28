@@ -3,30 +3,30 @@
 
 
 # If Nginx or php5-fpm  running stop them
-- name: Nginx | Shut down nginx if it is running
+- name: Nginx Install | Shut down nginx if it is running
   shell: "pkill nginx || echo ''"
   when: old_user_checksum.stdout != new_user_checksum.stdout
 
-- name: Nginx | Shut down php-fpm if it is running
+- name: Nginx Install | Shut down php-fpm if it is running
   shell: "pkill php || echo ''"
   when: old_user_checksum.stdout != new_user_checksum.stdout
 
 
 # Nginx User/Group
-- name: Nginx | Make sure the nginx group is present
+- name: Nginx Install | Make sure the nginx group is present
   group:
     gid: "{{nginx_gid}}"
     name: "{{nginx_group}}"
     state: present
   when: old_user_checksum.stdout != new_user_checksum.stdout
 
-- name: Nginx | Make sure the www directory is present
+- name: Nginx Install | Make sure the www directory is present
   file:
     path: "{{nginx_www_dir}}"
     state: directory
   when: old_user_checksum.stdout != new_user_checksum.stdout
 
-- name: Nginx | Make sure the nginx user is present
+- name: Nginx Install | Make sure the nginx user is present
   user:
     name: "{{nginx_user}}"
     uid: "{{nginx_uid}}"
@@ -38,7 +38,7 @@
     system: yes
   when: old_user_checksum.stdout != new_user_checksum.stdout
 
-- name: Nginx | Set the right directory permissions for the www directory
+- name: Nginx Install | Set the right directory permissions for the www directory
   file:
     path: "{{nginx_www_dir}}"
     owner: "{{nginx_user}}"
@@ -48,14 +48,14 @@
   when: old_user_checksum.stdout != new_user_checksum.stdout
 
 
-- name: Nginx | Check the current password expiry
+- name: Nginx Install | Check the current password expiry
   command: grep {{nginx_user}} /etc/shadow
   sudo: yes
   register: nginx_old_password
   changed_when: false
   when: old_user_checksum.stdout != new_user_checksum.stdout
 
-- name: Nginx | Set the right expiration on the nginx user
+- name: Nginx Install | Set the right expiration on the nginx user
   shell: "chage -I -1 -E -1 -m -1 -M -1 -W -1 -E -1 {{nginx_user}} && grep {{nginx_user}} /etc/shadow"
   sudo: yes
   register: nginx_new_password
@@ -66,7 +66,7 @@
 
 # Nginx directories
 
-- name: Nginx | Make sure the nginx directory exists
+- name: Nginx Install | Make sure the nginx directory exists
   file:
     path: "{{nginx_dir}}"
     owner: root
@@ -74,7 +74,7 @@
     mode: 0755
     state: directory
 
-- name: Nginx | Make sure the nginx log directory exists
+- name: Nginx Install | Make sure the nginx log directory exists
   file:
     path: "{{nginx_log_dir}}"
     owner: root
@@ -82,7 +82,7 @@
     mode: 0755
     state: directory
 
-- name: Nginx | Make sure the sites-available, sites-enabled and conf.d directories exist
+- name: Nginx Install | Make sure the sites-available, sites-enabled and conf.d directories exist
   file:
     path: "{{nginx_dir}}/{{item}}"
     owner: root
@@ -94,7 +94,7 @@
 
 # Build Dependencies
 
-- name: Nginx | Make sure the Nginx build dependencies are installed
+- name: Nginx Install | Make sure the Nginx build dependencies are installed
   apt:
     update_cache: yes
     pkg: "{{item}}"
@@ -107,14 +107,14 @@
     - libpcre3-dev
     - libssl-dev
 
-- name: Nginx | Clone the Nginx repo
+- name: Nginx Install | Clone the Nginx repo
   hg:
     repo:     "{{nginx_repo}}"
     dest:     "/tmp/nginx-repo"
     revision: "{{nginx_revision}}"
     purge:    "yes"
 
-- name: Nginx | test for presence of configure script
+- name: Nginx Install | test for presence of configure script
   shell: >
     if [ ! -e  '/tmp/nginx-repo/configure' ] && [ -e '/tmp/nginx-repo/auto/configure' ] ; then
       cp '/tmp/nginx-repo/auto/configure' '/tmp/nginx-repo/configure' ; 
@@ -123,7 +123,7 @@
 
 - include: "modules_install.yml"
 
-- name: Nginx | Set Server Name
+- name: Nginx Install | Set Server Name
   shell: >
     cd /tmp/nginx-repo && 
     perl -pi -e "s/\"Server:.*CRLF/\"Server: {{nginx_server_string}}\" CRLF/g"             "src/http/ngx_http_header_filter_module.c" &&
@@ -133,20 +133,25 @@
 
 
 
-- name: Nginx | Compile the Nginx source
+- name: Nginx Install | Compile the Nginx source
   shell: >
     cd /tmp/nginx-repo &&
     ./configure {{nginx_configure_flags}} &&
     make 
 
 
-- name: Nginx | Shut down nginx if it is running
+- name: Nginx Install | Shut down nginx if it is running
   shell: "pkill nginx || echo ''"
 
 
-- name: Nginx | Install the Nginx source
+- name: Nginx Install | Install the Nginx source
   shell: >
     cd /tmp/nginx-repo && make install
   notify: restart nginx
 
-      
+
+- name: Nginx Install | Remove default html directory created by install
+  file:
+    path: "{{nginx_www_dir}}/html"
+    state: absent
+
