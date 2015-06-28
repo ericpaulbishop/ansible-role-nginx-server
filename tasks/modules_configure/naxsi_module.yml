@@ -6,11 +6,11 @@
     owner: root
     group: root
     mode: 0644
-  when: nginx_modules.naxsi_module is defined and nginx_modules.naxsi_module == true
+  when: nginx_modules.naxsi_module is defined and ( nginx_modules.naxsi_module == true or nginx_modules.naxsi_module == 'True' )
 
 - name: Nginx Configure | Modules | Make sure the naxsi_module configuration is removed when disabled 
   file:
     path: "{{nginx_dir}}/naxsi_core.rules"
     state: absent
-  when: nginx_modules.naxsi_module is not defined or nginx_modules.naxsi_module == false
+  when: nginx_modules.naxsi_module is not defined or nginx_modules.naxsi_module == false or nginx_modules.naxsi_module == 'False'
 

@@ -6,12 +6,12 @@
     owner: root
     group: root
     mode: 0644
-  when: nginx_modules.passenger is defined and nginx_modules.passenger == true
+  when: nginx_modules.passenger is defined and ( nginx_modules.passenger == true or nginx_modules.passenger == 'True' )
 
 - name: Nginx Configure | Modules | Remove Passenger config file when disabled
   file:
     path: "{{nginx_dir}}/conf.d/passenger.conf"
     state: absent
-  when: nginx_modules.passenger is not defined or nginx_modules.passenger == false
+  when: nginx_modules.passenger is not defined or nginx_modules.passenger == false or nginx_modules.passenger == 'False'
 
 

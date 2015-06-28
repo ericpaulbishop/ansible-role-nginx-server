@@ -8,11 +8,11 @@
     owner: root
     group: root
     mode: 0644
-  when: nginx_modules.http_realip_module is defined and nginx_modules.http_realip_module == true
+  when: nginx_modules.http_realip_module is defined and ( nginx_modules.http_realip_module == true or nginx_modules.http_realip_module == 'True' )
 
 - name: Nginx Configure | Modules | Remove the http_realip_module configuration when disabled
   file:
     path: "{{nginx_dir}}/conf.d/http_realip.conf"
     state: absent
-  when: nginx_modules.http_realip_module is not defined or nginx_modules.http_realip_module == false
+  when: nginx_modules.http_realip_module is not defined or nginx_modules.http_realip_module == false or  nginx_modules.http_realip_module == 'False'
 

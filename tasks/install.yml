@@ -47,21 +47,10 @@
     state: directory
   when: old_user_checksum.stdout != new_user_checksum.stdout
 
-
-- name: Nginx Install | Check the current password expiry
-  command: grep {{nginx_user}} /etc/shadow
-  sudo: yes
-  register: nginx_old_password
-  changed_when: false
-  when: old_user_checksum.stdout != new_user_checksum.stdout
-
 - name: Nginx Install | Set the right expiration on the nginx user
   shell: "chage -I -1 -E -1 -m -1 -M -1 -W -1 -E -1 {{nginx_user}} && grep {{nginx_user}} /etc/shadow"
   sudo: yes
-  register: nginx_new_password
-  changed_when: nginx_new_password.stdout != nginx_old_password.stdout
   when: old_user_checksum.stdout != new_user_checksum.stdout
-
 
 
 # Nginx directories
@@ -130,7 +119,6 @@
     perl -pi -e "s/\"Server:[\t ]+nginx\"/\"Server: {{nginx_server_string}}\"/g"           "src/http/ngx_http_header_filter_module.c" &&
     perl -pi -e "s/\<hr\>\<center\>.*<\/center\>/<hr><center>Server Response<\/center>/g"  "src/http/ngx_http_special_response.c"
   when: nginx_server_string != ""
-
 
 
 - name: Nginx Install | Compile the Nginx source

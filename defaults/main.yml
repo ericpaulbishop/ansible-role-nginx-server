@@ -271,7 +271,7 @@ nginx_modules:
 
 nginx_default_configure_flags: "--prefix='{{nginx_www_dir}}' --conf-path='{{nginx_conf_path}}' --sbin-path='{{nginx_sbin_path}}' --error-log-path='{{nginx_log_dir}}/error.log' --http-log-path='{{nginx_log_dir}}/access.log' --pid-path='{{nginx_pid}}' --user='{{nginx_user}}' --group='{{nginx_group}}' "
 
-nginx_configure_flags: "{{nginx_default_configure_flags}}{% for key, enabled in nginx_modules.items() %}{% if enabled and nginx_module_include_flags[key] is defined %}{{ ' ' + nginx_module_include_flags[key] }}{% elif not enabled and key in nginx_module_exclude_flags.keys()  %}{{ ' ' + nginx_module_exclude_flags[key]   }}{% endif %}{% endfor %}"
+nginx_configure_flags: "{{nginx_default_configure_flags}}{% for key, enabled in nginx_modules.items() %}{% if (enabled == true or enabled == 'True') and nginx_module_include_flags[key] is defined %}{{ ' ' + nginx_module_include_flags[key] }}{% elif key in nginx_module_exclude_flags.keys() and ( enabled == false or enabled == 'False' ) %}{{ ' ' + nginx_module_exclude_flags[key]   }}{% endif %}{% endfor %}"
 
 
 
