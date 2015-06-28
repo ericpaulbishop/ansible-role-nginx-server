@@ -1,23 +1,78 @@
-server {
-
-{% set abc = dict() %}
-{% set abc['test'] = 'tester' %}
-server_name {{abc['test']}};
-
-{#
-{% for k,v in item.server.iteritems() %}
-{% if k.find('location') == -1 and k != 'name' %}
-  {{ k }} {{ v }};
+server
+{
+	server_name  {% if item.server['server_name'] is defined %}{{item.server['server_name']}}{% else %}{{inventory_hostname}}{% endif %};
+{% if item.server['listen'] is defined and item.server['listen'] is not string and item.server['listen'] is iterable %}
+{%   for v in listen %}
+	listen       {{v}};
+{%   endfor %}
+{% elif item.server['listen'] is defined  %}
+	listen       {{item.server['listen']}};
+{% elif item.server['listen'] is not defined and item.server['ssl_certificate'] is defined and item.server['ssl_certificate_key'] is defined %}
+	listen       443;
+{% else %}
+	listen       80;
 {% endif %}
-{% endfor %}
+{% if item.server['ssl_certificate'] is defined and item.server['ssl_certificate_key'] is defined %}
+	ssl                        {% if item.server['ssl'] is defined %}{{item.server['ssl']}}{% else %}on{% endif %};
+	ssl_certificate            {{item.server['ssl_certificate']}}
+	ssl_certificate_key        {{item.server['ssl_certificate_key']}}
 
-{% for k,v in item.server.iteritems() if k.find('location') != -1 %}
-  location {{ v.name }} {
-{% for x,y in v.iteritems() if x != 'name' %}
-    {{ x }} {{ y }};
+	ssl_session_cache          {% if item.server['ssl_session_cache'] is defined %}{{item.server['ssl_session_cache']}}{% else %}builtin:1000  shared:SSL:10m{% endif %};
+	ssl_protocols              {% if item.server['ssl_protocols'] is defined %}{{item.server['ssl_protocols']}}{% else %}TLSv1 TLSv1.1 TLSv1.2{% endif %};
+	ssl_ciphers                {% if item.server['ssl_ciphers'] is defined %}{{item.server['ssl_ciphers']}}{% else %}HIGH:!aNULL:!eNULL:!EXPORT:!CAMELLIA:!DES:!MD5:!PSK:!RC4{% endif %};
+	ssl_prefer_server_ciphers  {% if item.server['ssl_prefer_server_ciphers'] is defined %}{{item.server['ssl_prefer_server_ciphers']}}{% else %}on{% endif %};
+{% endif %}
+
+{% for k,v in item.server.iteritems() %}
+{%   if nginx_site_template_special_variables[k] is not defined %}
+{%     if v is not string and v is iterable %}
+{%      for lv in v %}
+	{{ k }} {{ lv }};
+{%      endfor %}
+{%     else %}
+	{{ k }} {{ v }};
+{%     endif %}
+{%   endif %}
 {% endfor %}
-  }
-{% endfor %}
-#}
+{% if item.server.disable_gnu_terry_pratchett is not defined %}
+	add_header  X-Clacks-Overhead "GNU Terry Pratchett";
+{% endif %}
+
+{% if item.server.locations is defined and item.server.locations is not string and item.server.locations is iterable %}
+{%   for location in item.server.locations %}
+{%     if location.location['match'] is defined %}
+	location {{location.location['match']}}
+	{
+{%       for k,v in location.location.iteritems() if k != 'match' %}
+{%         if v is not string and v is iterable %}
+{%          for lv in v %}
+		{{ k }} {{ lv }};
+{%          endfor %}
+{%         else %}
+		{{ k }} {{ v }};
+{%         endif %}
+{%       endfor %}
+	}
+{%     endif %}
+{%   endfor %}
+{% endif %}
+
+{% if item.server.enable_php is defined and item.server.enable_php == true %}
+	#php
+	location {% if item.server['php_location_match'] is defined %}{{item.server['php_location_match']}}{% else %} ~ '\.php$'{% endif %}{{ "\n\t{\n" }}
+		try_files      $uri =404;
+		fastcgi_pass   {% if item.server['php_fastcgi_socket'] is defined %}{{item.server['php_fastcgi_socket']}}{% else %}unix:/var/run/php5-fpm.sock{% endif %};
+		include        {{ nginx_dir }}/fastcgi.conf;
+	}
+{% endif %}
+
+{% if item.server.enable_fcgiwrap is defined and item.server.enable_fcgiwrap == true %}
+	#fcgiwrap
+	location {% if item.server['fcgiwrap_location_match'] is defined %}{{item.server['fcgiwrap_location_match']}}{% else %} ~ '\.cgi$'{% endif %}{{ "\n\t{\n" }}
+		try_files      $uri =404;
+		fastcgi_pass   {% if item.server['fcgiwrap_fastcgi_socket'] is defined %}{{item.server['fcgiwrap_fastcgi_socket']}}{% else %}unix:/var/run/fcgiwrap5-fpm.sock{% endif %};
+		include        {{ nginx_dir }}/fastcgi.conf;
+	}
+{% endif %}
 
 }

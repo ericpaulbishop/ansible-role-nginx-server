@@ -1,5 +1,6 @@
 ---
 nginx_site_template_special_variables:
+  name:                         true
   server_name:                  true
   listen:                       true
   ssl:                          true
