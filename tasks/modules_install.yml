@@ -40,6 +40,9 @@
 - include: modules_install/ngx_pagespeed.yml
   when: nginx_modules.ngx_pagespeed is defined and ( nginx_modules.ngx_pagespeed == true or nginx_modules.ngx_pagespeed == 'True' )
 
+- include: modules_install/geoip_module.yml
+  when: nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or  nginx_modules.geoip_module == 'True' )
+
 - include: modules_install/passenger_module.yml
   when: nginx_modules.passenger is defined and ( nginx_modules.passenger == true or  nginx_modules.passenger == 'True' )
 
