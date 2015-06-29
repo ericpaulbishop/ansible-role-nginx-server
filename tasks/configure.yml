@@ -70,7 +70,7 @@
     group: "{{nginx_user}}"
     mode: 0755
 
-- name: Nginx | Create example site files
+- name: Nginx Configure | Create example site files
   copy:
     src: "example_page_index.html"
     dest: "{{nginx_www_dir}}/example/index.html"
@@ -78,7 +78,7 @@
     group: "{{nginx_group}}"
     mode: 0644
 
-- name: Nginx | Create example site error pages
+- name: Nginx Configure | Create example site error pages
   copy:
     src: "error"
     dest: "{{nginx_www_dir}}/example/"
