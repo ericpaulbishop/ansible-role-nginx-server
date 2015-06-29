@@ -14,12 +14,14 @@
   get_url:
     url:   "{{nginx_geoip_country_url}}"
     dest:  "{{nginx_dir}}/geoip/GeoIP.dat.gz"
+    force: no
   when: nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' )
 
 - name: Nginx Configure | Download geoip country data when geoip module is enabled
   get_url:
     url:   "{{nginx_geoip_city_url}}"
     dest:  "{{nginx_dir}}/geoip/GeoLiteCity.dat.gz"
+    force: no
   when: nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' )
 
 - name: Nginx Configure | Extract geoip data when geoip module is enabled
@@ -38,11 +40,15 @@
     owner: root
     group: root
     mode: 0644
+  notify:
+    - reload nginx
   when: nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' )
 
 - name: Nginx Configure | Remove geoip configuration file for nginx when geoip module is disabled
   file:
     path: "{{nginx_dir}}/conf.d/geoip.conf"
     state: absent
+  notify:
+    - reload nginx
   when: nginx_modules.geoip_module is not defined or nginx_modules.geoip_module == false or nginx_modules.geoip_module == 'False'
 

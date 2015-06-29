@@ -8,10 +8,14 @@
     owner: root
     group: root
     mode: 0644
+  notify:
+    - reload nginx
   when: nginx_modules.http_gzip_static_module is defined and ( nginx_modules.http_gzip_static_module == true or nginx_modules.http_gzip_static_module == 'True' )
 
 - name: Nginx Configure | Modules | Remove the http_gzip_static_module configuration when disabled
   file:
     path: "{{nginx_dir}}/conf.d/http_gzip_static.conf"
     state: absent
+  notify:
+    - reload nginx
   when: nginx_modules.http_gzip_static_module is not defined or nginx_modules.http_gzip_static_module == false or nginx_modules.http_gzip_static_module == 'False'
