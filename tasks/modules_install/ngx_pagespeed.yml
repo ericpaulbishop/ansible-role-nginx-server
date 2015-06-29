@@ -1,7 +1,7 @@
 # file: nginx/tasks/modules/ngx_pagespeed.yml
 # configure flag: --add-module=/tmp/ngx_pagespeed-release-{{nginx_ngx_pagespeed_version}}-beta
 
-- name: Nginx | Modules | Make sure the dependences are installed
+- name: Nginx Install | Modules | Make sure the dependences are installed
   apt:
     pkg: "{{item}}"
   with_items:
@@ -9,24 +9,24 @@
     - libpcre3
     - libpcre3-dev
 
-- name: Nginx | Modules | Download the ngx_pagespeed source
+- name: Nginx Install | Modules | Download the ngx_pagespeed source
   get_url:
     url: "https://github.com/pagespeed/ngx_pagespeed/archive/release-{{nginx_ngx_pagespeed_version}}-beta.tar.gz"
-    dest: "/tmp/ngx_pagespeed_module.tar.gz"
+    dest: "/tmp/ngx_pagespeed_module-{{nginx_ngx_pagespeed_version}}.tar.gz"
 
-- name: Nginx | Modules | Unpack the ngx_pagespeed source
-  command: tar -xvzf /tmp/ngx_pagespeed_module.tar.gz
+- name: Nginx Install | Modules | Unpack the ngx_pagespeed source
+  command: "tar -xvzf '/tmp/ngx_pagespeed_module-{{nginx_ngx_pagespeed_version}}.tar.gz'"
   args:
-    chdir: /tmp
+    chdir: "/tmp"
     creates: "/tmp/ngx_pagespeed-release-{{nginx_ngx_pagespeed_version}}-beta"
 
-- name: Nginx | Modules | Download the psol source
+- name: Nginx Install | Modules | Download the psol source
   get_url:
     url: "https://dl.google.com/dl/page-speed/psol/{{nginx_ngx_pagespeed_version}}.tar.gz"
-    dest: "/tmp/ngx_pagespeed-release-{{nginx_ngx_pagespeed_version}}-beta/psol.tar.gz"
+    dest: "/tmp/ngx_pagespeed-release-{{nginx_ngx_pagespeed_version}}-beta/psol-{{nginx_ngx_pagespeed_version}}.tar.gz"
 
-- name: Nginx | Modules | Unpack the psol source
-  command: "tar -xvzf /tmp/ngx_pagespeed-release-{{nginx_ngx_pagespeed_version}}-beta/psol.tar.gz"
+- name: Nginx Install | Modules | Unpack the psol source
+  command: "tar -xvzf /tmp/ngx_pagespeed-release-{{nginx_ngx_pagespeed_version}}-beta/psol-{{nginx_ngx_pagespeed_version}}.tar.gz"
   args:
     chdir: "/tmp/ngx_pagespeed-release-{{nginx_ngx_pagespeed_version}}-beta"
     creates: "/tmp/ngx_pagespeed-release-{{nginx_ngx_pagespeed_version}}-beta/psol"
