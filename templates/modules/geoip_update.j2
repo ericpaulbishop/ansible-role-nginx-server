@@ -1,0 +1,9 @@
+#!/bin/sh
+
+curl 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz' >  "{{nginx_dir}}/geoip/GeoIP.dat.gz"
+curl 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz'          >  "{{nginx_dir}}/geoip/GeoLiteCity.dat.gz"
+
+gunzip -c "{{nginx_dir}}/geoip/GeoLiteCity.dat.gz" > "{{nginx_dir}}/geoip/GeoLiteCity.dat"
+gunzip -c "{{nginx_dir}}/geoip/GeoIP.dat.gz"       > "{{nginx_dir}}/geoip/GeoIP.dat"
+
+echo ""

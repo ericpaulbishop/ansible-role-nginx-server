@@ -1,13 +1,12 @@
 ---
 
-
 - name: Nginx Configure | Create geoip data directory for nginx when geoip module is enabled
   file:
     path: "{{nginx_dir}}/geoip"
     owner: root
     group: root
     state: directory
-    mode: 0755
+    mode:  0755
   when: nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' )
 
 - name: Nginx Configure | Download geoip country data when geoip module is enabled
@@ -32,21 +31,37 @@
     creates:  "{{nginx_dir}}/geoip/GeoIP.dat.gz"
   when: nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' )
 
+- name: Nginx Configure | Set cron.monthly script to periodically update geoip data when geoip module is enabled
+  template:
+    src: ../../templates/modules/geoip_update.j2
+    dest:  "/etc/cron.monthly/geoip_update"
+    owner: root
+    group: root
+    mode:  0755
+  when: nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' )
+
 
 - name: Nginx Configure | Update geoip configuration file for nginx when geoip module is enabled
   template:
     src: ../../templates/modules/geoip_conf.j2
-    dest: "{{nginx_dir}}/conf.d/geoip.conf"
+    dest:  "{{nginx_dir}}/conf.d/geoip.conf"
     owner: root
     group: root
-    mode: 0644
+    mode:  0644
   notify:
     - reload nginx
   when: nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' )
 
+- name: Nginx Configure | Remove cron.monthly geoip update script when geoip module is disabled
+  file:
+    path:  "/etc/cron.monthly/geoip_update"
+    state: absent
+  when: nginx_modules.geoip_module is not defined or nginx_modules.geoip_module == false or nginx_modules.geoip_module == 'False'
+
+
 - name: Nginx Configure | Remove geoip configuration file for nginx when geoip module is disabled
   file:
-    path: "{{nginx_dir}}/conf.d/geoip.conf"
+    path:  "{{nginx_dir}}/conf.d/geoip.conf"
     state: absent
   notify:
     - reload nginx

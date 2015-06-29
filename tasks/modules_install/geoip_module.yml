@@ -1,5 +1,10 @@
 ---
 
+- name: Nginx Install | Modules | Make sure the curl package is installed
+  apt:
+    pkg: curl
+    state: present
+
 - name: Nginx Install | Modules | Download the geoip lib source
   get_url:
     url: "{{nginx_geoip_url}}"
