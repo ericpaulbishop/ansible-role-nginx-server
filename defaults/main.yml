@@ -158,7 +158,7 @@ nginx_gzip_static: "off"
 
 
 # upload_progress_module configuration
-nginx_upload_progress_version: "0.9.0"
+nginx_upload_progress_version: "0.9.1"
 nginx_upload_progress_javascript_output: yes
 nginx_upload_progress_zone_name: "proxied"
 nginx_upload_progress_zone_size: "1m"
@@ -166,8 +166,8 @@ nginx_upload_progress_url: "https://github.com/masterzen/nginx-upload-progress-m
 
 
 # headers_more_module configuration
-nginx_headers_more_version: "0.25"
-nginx_headers_more_url: "https://github.com/agentzh/headers-more-nginx-module/archive/v{{nginx_headers_more_version}}.tar.gz"
+nginx_headers_more_version: "0.26"
+nginx_headers_more_url: "https://github.com/openresty/headers-more-nginx-module/archive/v{{nginx_headers_more_version}}.tar.gz"
 
 
 # http_auth_request_module configuration
@@ -176,8 +176,8 @@ nginx_auth_request_url: "http://mdounin.ru/hg/ngx_http_auth_request_module/archi
 
 
 # http_echo_module configuration
-nginx_echo_version: "0.51"
-nginx_echo_url: "https://github.com/agentzh/echo-nginx-module/archive/v{{nginx_echo_version}}.tar.gz"
+nginx_echo_version: "0.58"
+nginx_echo_url: "https://github.com/openresty/echo-nginx-module/archive/v{{nginx_echo_version}}.tar.gz"
 
 
 # http_realip_module configuration
@@ -187,7 +187,7 @@ nginx_realip_real_ip_recursive: "off"
 
 
 # naxsi_module configuration
-nginx_naxsi_version: "0.52"
+nginx_naxsi_version: "0.53-2"
 nginx_naxsi_url: "https://github.com/nbs-system/naxsi/archive/{{nginx_naxsi_version}}.tar.gz"
 
 # ngx_pagespeed_module configuration
@@ -208,7 +208,9 @@ nginx_passenger_max_instances_per_app: 0
 nginx_passenger_pool_idle_time:        300
 nginx_passenger_max_requests:          0
 
-
+# GeoIP
+nginx_geoip_version: '1.6.3'
+nginx_geoip_url:     "https://github.com/maxmind/geoip-api-c/releases/download/v{{nginx_geoip_version}}/GeoIP-{{nginx_geoip_version}}.tar.gz"
 
 
 
