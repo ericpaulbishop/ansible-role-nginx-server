@@ -1,29 +1,29 @@
 ---
-- name: Nginx | Modules | Get passenger path
+- name: Nginx Prepare | Modules | Get passenger path
   shell: "{% if ruby_location is defined %}{{ ruby_location + '/bin/' }}{% endif %}passenger-config --root "
   register: passenger_root
 
-- name: Nginx | Modules | Install Passenger gem
+- name: Nginx Prepare | Modules | Install Passenger gem
   gem:
     name: passenger
     version: "{{nginx_passenger_version}}"
     user_install: no
   when: passenger_root.stdout == ""
 
-- name: Nginx | Modules | Get passenger path if not yet defined
+- name: Nginx Prepare | Modules | Get passenger path if not yet defined
   shell: "{% if ruby_location is defined %}{{ ruby_location + '/bin/' }}{% endif %}passenger-config --root "
   register: passenger_root
 
-- name: Nginx | Modules | Get ruby path
+- name: Nginx Prepare | Modules | Get ruby path
   shell: "which ruby || echo '' "
   register: environment_ruby_path
 
-- name: Nginx | Modules | Set Passenger module path
+- name: Nginx Prepare | Modules | Set Passenger module path
   set_fact:
     nginx_configure_flags: "{{nginx_configure_flags}} --add-module='{{ passenger_root.stdout }}/ext/nginx' "
   when: passenger_root.stdout != "" 
 
-- name: Nginx | Modules | Set Ruby path for passenger
+- name: Nginx Prepare | Modules | Set Ruby path for passenger
   set_fact:
     nginx_passenger_ruby: "{% if ruby_location is defined  %}{{ ruby_location + '/bin/ruby'}}{% else %}{{ environment_ruby_path.stdout }}{% endif %}"
   when: ruby_location is defined or environment_ruby_path.stdout != ""
