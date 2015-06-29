@@ -27,6 +27,8 @@
 
 - include: modules_configure/ngx_pagespeed.yml
 
+- include: modules_configure/geoip_module.yml
+
 - include: modules_configure/passenger_module.yml
 
 

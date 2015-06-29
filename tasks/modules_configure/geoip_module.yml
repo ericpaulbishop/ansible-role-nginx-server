@@ -1,0 +1,48 @@
+---
+
+
+- name: Nginx Configure | Create geoip data directory for nginx when geoip module is enabled
+  file:
+    path: "{{nginx_dir}}/geoip"
+    owner: root
+    group: root
+    state: directory
+    mode: 0755
+  when: nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' )
+
+- name: Nginx Configure | Download geoip country data when geoip module is enabled
+  get_url:
+    url:   "{{nginx_geoip_country_url}}"
+    dest:  "{{nginx_dir}}/geoip/GeoIP.dat.gz"
+  when: nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' )
+
+- name: Nginx Configure | Download geoip country data when geoip module is enabled
+  get_url:
+    url:   "{{nginx_geoip_city_url}}"
+    dest:  "{{nginx_dir}}/geoip/GeoLiteCity.dat.gz"
+  when: nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' )
+
+- name: Nginx Configure | Extract geoip data when geoip module is enabled
+  shell: >
+    gunzip -c "{{nginx_dir}}/geoip/GeoLiteCity.dat.gz" > "{{nginx_dir}}/geoip/GeoLiteCity.dat" &&
+    gunzip -c "{{nginx_dir}}/geoip/GeoIP.dat.gz"       > "{{nginx_dir}}/geoip/GeoIP.dat"
+  args:
+    creates:  "{{nginx_dir}}/geoip/GeoIP.dat.gz"
+  when: nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' )
+
+
+- name: Nginx Configure | Update geoip configuration file for nginx when geoip module is enabled
+  template:
+    src: ../../templates/modules/geoip_conf.j2
+    dest: "{{nginx_dir}}/conf.d/geoip.conf"
+    owner: root
+    group: root
+    mode: 0644
+  when: nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' )
+
+- name: Nginx Configure | Remove geoip configuration file for nginx when geoip module is disabled
+  file:
+    path: "{{nginx_dir}}/conf.d/geoip.conf"
+    state: absent
+  when: nginx_modules.geoip_module is not defined or nginx_modules.geoip_module == false or nginx_modules.geoip_module == 'False'
+
