@@ -107,3 +107,26 @@
   notify:
     - reload nginx
   when: nginx_disabled_sites|lower != 'none'
+
+
+# monit support
+- name: Ensure monit is installed when monit protection enabled
+  apt:
+    pkg:   "monit"
+    state: present
+  when: nginx_monit_protection == true or nginx_monit_protection == 'True'
+
+- name: Nginx Configure | Create the nginx monit service file when monit protection enabled
+  template:
+    src:  etc_monit_conf.d_nginx.j2
+    dest: /etc/monit/conf.d/nginx
+  notify:
+    - restart monit
+  when: nginx_monit_protection == true or nginx_monit_protection == 'True'
+
+- name: Nginx Configure | Remove the nginx monit service file when monit protection disabled
+  file:
+    path:  /etc/monit/conf.d/nginx
+    state: absent
+  when: nginx_monit_protection == false or nginx_monit_protection == 'False'
+

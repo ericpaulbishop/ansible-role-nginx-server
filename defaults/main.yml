@@ -25,6 +25,10 @@ nginx_use_custom_server_string:      false
 nginx_custom_server_string:          ""
 
 
+# monit
+nginx_monit_protection:              false
+
+
 # modules
 nginx_include_http_stub_status_module:  true
 nginx_include_http_ssl_module:          true

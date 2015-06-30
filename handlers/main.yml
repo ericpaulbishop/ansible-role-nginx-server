@@ -1,9 +1,13 @@
 # file: nginx/handlers/main.yml
 
-- name: restart nginx
+- name:    restart nginx
   service: name=nginx state=restarted
-  sudo: yes
+  sudo:    yes
 
-- name: reload nginx
+- name:    reload nginx
   service: name=nginx state=reloaded
-  sudo: yes
+  sudo:    yes
+
+- name:    restart monit
+  service: name=monit state=restarted
+  sudo:    yes
