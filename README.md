@@ -156,7 +156,7 @@ entry for each one. Also, while the match condition was listed in the 'name' att
 
 Also, you can define multiple directives with the same name as a list, as with the error page shown in the site 'foo' above.
 
-Also worth noting: The site configuration will add the line: 'add_header X-Clacks-Overhead "GNU Terry Pratchett"' by default. This is a tribute, to the 
+Also worth noting: The site configuration will add the line: `add_header X-Clacks-Overhead "GNU Terry Pratchett"` by default. This is a tribute, to the 
 late, great Terry Pratchett. See further details at http://www.gnuterrypratchett.com/  You can disable this default by adding the variable `disable_gnu_terry_pratchett` under your server. However, I strongly urge you not to do this -- pick up a copy of *Going Postal* or *Thud* and judge for yourself.
 
 To enable or disable specific sites you can add prior used `server_name` attribute to the variables `nginx_enabled_sites` and `nginx_disabled_sites`.
