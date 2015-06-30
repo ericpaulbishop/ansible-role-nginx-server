@@ -42,7 +42,7 @@ nginx_include_http_perl_module:         true
 nginx_include_http_sub_module:          true
 nginx_include_naxsi_module:             true
 nginx_include_ngx_pagespeed:            true
-nginx_include_geoip_module:             true
+nginx_include_geoip_module:             false
 nginx_include_passenger:                false
 nginx_include_mail_pop3_module:         false
 nginx_include_mail_imap_module:         false

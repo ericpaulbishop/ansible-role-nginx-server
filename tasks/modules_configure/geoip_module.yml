@@ -52,9 +52,18 @@
     - reload nginx
   when: nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' )
 
+
+
+
 - name: Nginx Configure | Remove cron.monthly geoip update script when geoip module is disabled
   file:
-    path:  "/etc/cron.monthly/geoip_update"
+    path:    "/etc/cron.monthly/geoip_update"
+    state:   absent
+  when: nginx_modules.geoip_module is not defined or nginx_modules.geoip_module == false or nginx_modules.geoip_module == 'False'
+
+- name: Nginx Configure | Remove nginx geoip directory and files when geoip module is disabled
+  file:
+    path:  "{{nginx_dir}}/geoip"
     state: absent
   when: nginx_modules.geoip_module is not defined or nginx_modules.geoip_module == false or nginx_modules.geoip_module == 'False'
 
