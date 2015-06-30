@@ -252,4 +252,4 @@ Licensed under the MIT License. See the LICENSE file for details.
 
 #### Feedback, bug-reports, requests, ...
 
-Are [welcome](https://github.com/ericpaulbishop/nginx/issues)!
+Are [welcome](https://github.com/ericpaulbishop/ansible-role-nginx-server/issues)!
