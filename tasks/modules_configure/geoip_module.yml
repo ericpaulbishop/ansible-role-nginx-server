@@ -28,7 +28,7 @@
     gunzip -c "{{nginx_dir}}/geoip/GeoLiteCity.dat.gz" > "{{nginx_dir}}/geoip/GeoLiteCity.dat" &&
     gunzip -c "{{nginx_dir}}/geoip/GeoIP.dat.gz"       > "{{nginx_dir}}/geoip/GeoIP.dat"
   args:
-    creates:  "{{nginx_dir}}/geoip/GeoIP.dat.gz"
+    creates:  "{{nginx_dir}}/geoip/GeoIP.dat"
   when: nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' )
 
 - name: Nginx Configure | Set cron.monthly script to periodically update geoip data when geoip module is enabled

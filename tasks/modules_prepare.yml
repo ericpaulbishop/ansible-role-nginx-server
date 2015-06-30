@@ -41,6 +41,6 @@
   when: nginx_modules.ngx_pagespeed is defined and ( nginx_modules.ngx_pagespeed == true or nginx_modules.ngx_pagespeed == 'True' )
 
 - include: modules_prepare/passenger_module.yml
-  when: nginx_modules.passenger is defined and ( nginx_modules.passenger == true or  nginx_modules.passenger == 'True' )
+  when: nginx_modules.passenger_module is defined and ( nginx_modules.passenger_module == true or  nginx_modules.passenger_module == 'True' )
 
 

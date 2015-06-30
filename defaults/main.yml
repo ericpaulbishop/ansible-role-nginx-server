@@ -43,7 +43,7 @@ nginx_include_http_sub_module:          true
 nginx_include_naxsi_module:             true
 nginx_include_ngx_pagespeed:            true
 nginx_include_geoip_module:             false
-nginx_include_passenger:                false
+nginx_include_passenger_module:         false
 nginx_include_mail_pop3_module:         false
 nginx_include_mail_imap_module:         false
 nginx_include_mail_smtp_module:         false
@@ -268,7 +268,7 @@ nginx_modules:
   naxsi_module:             "{{nginx_include_http_sub_module}}"
   ngx_pagespeed:            "{{nginx_include_naxsi_module}}"
   geoip_module:             "{{nginx_include_geoip_module}}"
-  passenger:                "{{nginx_include_passenger}}"
+  passenger_module:         "{{nginx_include_passenger_module}}"
   mail_pop3_module:         "{{nginx_include_mail_pop3_module}}"
   mail_imap_module:         "{{nginx_include_mail_imap_module}}"
   mail_smtp_module:         "{{nginx_include_mail_smtp_module}}"
