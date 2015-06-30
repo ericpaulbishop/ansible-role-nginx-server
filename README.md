@@ -127,7 +127,7 @@ nginx_sites:
       listen: 8080
       server_name: localhost
       locations:
-        - location
+        - location:
             match: /
             try_files: "$uri $uri/ /index.html"
             sendfile: "on"
@@ -136,10 +136,10 @@ nginx_sites:
       listen: 8888
       server_name: webmail.localhost
       locations:
-        - location
+        - location:
             match: /
             try_files: "$uri $uri/ /index.html"
-        - location
+        - location:
             match: /images/
             try_files: "$uri $uri/ /index.html"
 ```
