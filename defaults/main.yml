@@ -123,7 +123,6 @@ nginx_sites:
             allow: "all"
 
 nginx_enabled_sites: [ 'example' ]
-nginx_disabled_sites: []
 
 
 
