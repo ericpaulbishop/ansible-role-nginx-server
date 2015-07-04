@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: Eric Bishop (ericpaulbishop@gmail.com)
+  description: Install and configure Nginx from source, supports a large number of optional modules including Passenger and GeoIP
+  min_ansible_version: 1.5
+  license: MIT
+  platforms:
+  - name: Debian
+    versions:
+    - all
+  categories:
+  - web
+
+dependencies: []
+
