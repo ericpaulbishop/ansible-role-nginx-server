@@ -90,8 +90,10 @@
     state: present
   with_items:
     - perl
-    - libperl-dev
     - build-essential
+    - mercurial
+    - libperl-dev
+    - libcurl4-openssl-dev
     - libpcre3
     - libpcre3-dev
     - libssl-dev

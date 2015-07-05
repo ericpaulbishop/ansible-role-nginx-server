@@ -1,6 +1,6 @@
 ---
 - name: Nginx Prepare | Modules | Get passenger path
-  shell: "{% if ruby_location is defined %}{{ ruby_location + '/bin/' }}{% endif %}passenger-config --root "
+  shell: "{% if ruby_location is defined %}{{ ruby_location + '/bin/' }}{% endif %}passenger-config --root || echo '' "
   register: passenger_root
 
 - name: Nginx Prepare | Modules | Install Passenger gem
@@ -11,7 +11,7 @@
   when: passenger_root.stdout == ""
 
 - name: Nginx Prepare | Modules | Get passenger path if not yet defined
-  shell: "{% if ruby_location is defined %}{{ ruby_location + '/bin/' }}{% endif %}passenger-config --root "
+  shell: "{% if ruby_location is defined %}{{ ruby_location + '/bin/' }}{% endif %}passenger-config --root || echo '' "
   register: passenger_root
 
 - name: Nginx Prepare | Modules | Get ruby path
