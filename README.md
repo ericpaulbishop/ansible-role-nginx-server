@@ -120,7 +120,8 @@ The following variables can be used to enable/disable modules to include in the 
 
 
 
-##### Sites
+##### Site Configuration
+
 
 The role allows you to configure a list of sites (servers). Just provide a list of dictionaries according to the following format:
 
@@ -156,6 +157,7 @@ entry for each one. Also, while the match condition was listed in the 'name' att
 
 Also, you can define multiple directives with the same name as a list, as with the error page shown in the site 'foo' above.
 
+
 Also worth noting: The site configuration will add the line: 
 
 ``add_header X-Clacks-Overhead "GNU Terry Pratchett"``
@@ -163,17 +165,24 @@ Also worth noting: The site configuration will add the line:
  by default. This is a tribute, to the 
 late, great Terry Pratchett. See further details at http://www.gnuterrypratchett.com/  You can disable this default by adding the variable `disable_gnu_terry_pratchett` under your server. However, I strongly urge you not to do this -- pick up a copy of *Going Postal* or *Thud* and judge for yourself.
 
-To enable or disable specific sites you can add prior used `server_name` attribute to the variables `nginx_enabled_sites` and `nginx_disabled_sites`.
+Finally, be aware that you can configure a site independently of this playbook by creating your own configuration file in the sites_available directory within the directory specified by the `nginx_dir` parameter. This file will not be modified/deleted unless that server is included in the nginx_sites list.
+
+##### Enabling / Disabling Sites
+
+To specify which sites are enabled, add the `server_name` attribute to the `nginx_enabled_sites` variable. All sites defined in the  `nginx_sites` variable that are not included in the `nginx_enabled_sites` variable will be disabled.
+
 
 ```yaml
 nginx_enabled_sites:
   - localhost
 ```
 
-```yaml
-nginx_disabled_sites:
-  - webmail.localhost
-```
+
+##### Example Site
+
+If you don't specify any sites in the nginx_sites list, the playbook will configure an example site and enable it, served on port 80.  The files will be in the example directory under the directory specified by the `nginx_www_dir` variable. The example site is not the default nginx site, but rather shows a pink, ascii brontosaurus along with a message that your server is configured. The pink brontosaurus is a bit of an inside joke that I've been using in older deployment scripts for a while and I saw no harm in including it -- it's just the initial example site, and it is a bit of a change from the boring defaults.
+
+
 
 ##### Monit Support
 You can put Nginx under monit monitoring protection, by setting `nginx_monit_protection: true`
