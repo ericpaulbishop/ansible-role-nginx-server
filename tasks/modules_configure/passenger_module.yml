@@ -8,7 +8,7 @@
     mode: 0644
   notify:
     - reload nginx
-  when: nginx_modules.passenger_module is defined and ( nginx_modules.passenger == true or nginx_modules.passenger_module == 'True' )
+  when: nginx_modules.passenger_module is defined and ( nginx_modules.passenger_module == true or nginx_modules.passenger_module == 'True' )
 
 - name: Nginx Configure | Modules | Remove Passenger config file when disabled
   file:
