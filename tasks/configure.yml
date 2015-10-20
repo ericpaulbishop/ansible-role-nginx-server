@@ -10,6 +10,29 @@
   notify:
     - restart nginx
 
+
+- name: Nginx Configure | Test if we are using systemd
+  shell: "if [ -d /lib/systemd/system ] ; then echo 'true' ; else echo 'false' ; fi"
+  register: have_systemd
+
+
+- name: Nginx Configure | Install the systemd script if using systemd
+  template:
+    src: nginx.service.systemd.j2
+    dest: /lib/systemd/system/nginx.service
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart nginx
+  when: have_systemd.stdout == "true"
+
+
+- name: Nginx Configure | Reload scripts if using systemd
+  shell: "systemctl daemon-reload"
+  when: have_systemd.stdout == "true"
+
+
 - name: Nginx Configure | Register Nginx as a service
   service:
     name: nginx
