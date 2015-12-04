@@ -14,8 +14,8 @@ server
 {% endif %}
 {% if item.server['ssl_certificate'] is defined and item.server['ssl_certificate_key'] is defined %}
 	ssl                        {% if item.server['ssl'] is defined %}{{item.server['ssl']}}{% else %}on{% endif %};
-	ssl_certificate            {{item.server['ssl_certificate']}}
-	ssl_certificate_key        {{item.server['ssl_certificate_key']}}
+	ssl_certificate            {{item.server['ssl_certificate']}};
+	ssl_certificate_key        {{item.server['ssl_certificate_key']}};
 
 	ssl_session_cache          {% if item.server['ssl_session_cache'] is defined %}{{item.server['ssl_session_cache']}}{% else %}builtin:1000  shared:SSL:10m{% endif %};
 	ssl_protocols              {% if item.server['ssl_protocols'] is defined %}{{item.server['ssl_protocols']}}{% else %}TLSv1 TLSv1.1 TLSv1.2{% endif %};
