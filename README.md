@@ -2,7 +2,9 @@
  
 Ansible role which installs and configures Nginx, from source.
 
-This is based largely on the ANXS/nginx ansible role with some major differences/improvements:
+This is just a fork from ericpaulbishop/ansible-role-nginx-server, to add upstreams and load-balancing to the configuration of nginx.
+
+EricPaulBishop's work is based largely on the ANXS/nginx ansible role with some major differences/improvements:
 
 - Installation from source is the only available installation option
 - Support for Passenger and GeoIP modules, as well as those supported by anxs/nginx
