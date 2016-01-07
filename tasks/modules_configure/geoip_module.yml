@@ -33,7 +33,7 @@
 
 - name: Nginx Configure | Set cron.monthly script to periodically update geoip data when geoip module is enabled
   template:
-    src: ../../templates/modules/geoip_update.j2
+    src: templates/modules/geoip_update.j2
     dest:  "/etc/cron.monthly/geoip_update"
     owner: root
     group: root
@@ -43,7 +43,7 @@
 
 - name: Nginx Configure | Update geoip configuration file for nginx when geoip module is enabled
   template:
-    src: ../../templates/modules/geoip_conf.j2
+    src: templates/modules/geoip_conf.j2
     dest:  "{{nginx_dir}}/conf.d/geoip.conf"
     owner: root
     group: root
