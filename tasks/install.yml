@@ -90,6 +90,7 @@
   with_items:
     - perl
     - build-essential
+    - git
     - mercurial
     - libperl-dev
     - libcurl4-openssl-dev
