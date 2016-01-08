@@ -191,7 +191,7 @@ nginx_realip_real_ip_recursive: "off"
 
 
 # naxsi_module configuration
-nginx_naxsi_version: "0.53-2"
+nginx_naxsi_version: "0.54"
 nginx_naxsi_url: "https://github.com/nbs-system/naxsi/archive/{{nginx_naxsi_version}}.tar.gz"
 
 # ngx_pagespeed_module configuration
