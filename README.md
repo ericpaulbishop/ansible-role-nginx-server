@@ -2,10 +2,7 @@
  
 Ansible role which installs and configures Nginx, from source.
 
-This is just a fork from ericpaulbishop/ansible-role-nginx-server with the following differences:.
-
-- Implement upstream support for load balancing.
-- Implement websocket load balancing.
+This is just a fork from ericpaulbishop/ansible-role-nginx-server, to add upstreams and load-balancing to the configuration of nginx.
 
 EricPaulBishop's work is based largely on the ANXS/nginx ansible role with some major differences/improvements:
 
