@@ -1,7 +1,7 @@
 ---
 - name: Nginx Configure | Modules | Make sure the upload_progress_module configuration is updated when enabled
   template:
-    src: ../../templates/modules/upload_progress.j2
+    src: templates/modules/upload_progress.j2
     dest: "{{nginx_dir}}/sites-available/upload_progress"
     owner: root
     group: root
