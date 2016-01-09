@@ -16,7 +16,7 @@
 
 - name: Nginx Configure | Modules | Make sure we have a basic set of rules to include for our sites configs
   copy:
-    src: files/naxsi.rules
+    src: ../../files/naxsi.rules
     dest: "{{nginx_dir}}/naxsi.rules"
     owner: root
     group: root
