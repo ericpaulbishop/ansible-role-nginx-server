@@ -2,7 +2,7 @@
 
 nginx_install_method: "source"
 nginx_repo:           "http://hg.nginx.org/nginx"
-nginx_revision:       "release-1.8.0"
+nginx_revision:       "release-1.9.12"
 
 nginx_user:           "www-data"
 nginx_group:          "www-data"
@@ -41,7 +41,7 @@ nginx_include_http_echo_module:         true
 nginx_include_google_perftools_module:  true
 nginx_include_ipv6_module:              true
 nginx_include_http_real_ip_module:      true
-nginx_include_http_spdy_module:         true
+nginx_include_http_spdy_module:         false
 nginx_include_http_perl_module:         true
 nginx_include_http_sub_module:          true
 nginx_include_naxsi_module:             true
@@ -191,7 +191,7 @@ nginx_realip_real_ip_recursive: "off"
 
 
 # naxsi_module configuration
-nginx_naxsi_version: "0.54"
+nginx_naxsi_version: "0.53-2"
 nginx_naxsi_url: "https://github.com/nbs-system/naxsi/archive/{{nginx_naxsi_version}}.tar.gz"
 
 # ngx_pagespeed_module configuration

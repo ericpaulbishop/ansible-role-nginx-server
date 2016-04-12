@@ -1,7 +1,7 @@
 ---
 - name: Nginx Configure | Modules | Create Passenger config file when enabled
   template:
-    src: ../../templates/modules/passenger_conf.j2
+    src: templates/modules/passenger_conf.j2
     dest: "{{nginx_dir}}/conf.d/passenger.conf"
     owner: root
     group: root

@@ -1,7 +1,7 @@
 ---
 - name: Nginx Configure | Modules | Make sure the naxsi_module configuration is up to date when enabled
   copy:
-    src: ../../files/naxsi_core.rules
+    src: files/naxsi_core.rules
     dest: "{{nginx_dir}}/naxsi_core.rules"
     owner: root
     group: root
@@ -13,13 +13,4 @@
     path: "{{nginx_dir}}/naxsi_core.rules"
     state: absent
   when: nginx_modules.naxsi_module is not defined or nginx_modules.naxsi_module == false or nginx_modules.naxsi_module == 'False'
-
-- name: Nginx Configure | Modules | Make sure we have a basic set of rules to include for our sites configs
-  copy:
-    src: ../../files/naxsi.rules
-    dest: "{{nginx_dir}}/naxsi.rules"
-    owner: root
-    group: root
-    mode: 0644
-  when: nginx_modules.naxsi_module is defined and ( nginx_modules.naxsi_module == true or nginx_modules.naxsi_module == 'True' )
 
