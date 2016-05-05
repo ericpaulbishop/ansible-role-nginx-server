@@ -19,7 +19,7 @@
 - name: Nginx Install | Modules | Install the geoip library
   shell: >
     cd "/tmp/GeoIP-{{nginx_geoip_version}}" &&
-    ./configure && 
+    ./configure &&
     make &&
     make install
 

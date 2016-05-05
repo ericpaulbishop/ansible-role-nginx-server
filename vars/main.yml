@@ -10,7 +10,7 @@ nginx_site_template_special_variables:
   ssl_protocols:                true
   ssl_ciphers:                  true
   ssl_prefer_server_ciphers:    true
-  disable_gnu_terry_pratchett:  true 
+  disable_gnu_terry_pratchett:  true
   locations:                    true
   enable_php:                   true
   php_location_match:           true

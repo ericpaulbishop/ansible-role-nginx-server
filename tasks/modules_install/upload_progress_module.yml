@@ -7,7 +7,7 @@
 - name: Nginx Install | Modules | Unpack the upload_progress_module source
   command:   "tar -xvzf /tmp/nginx-upload-progress-module-{{nginx_upload_progress_version}}.tar.gz"
   args:
-    chdir:   "/tmp" 
+    chdir:   "/tmp"
     creates: "/tmp/nginx-upload-progress-module-{{nginx_upload_progress_version}}"
 
 

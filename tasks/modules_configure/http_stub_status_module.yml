@@ -20,6 +20,6 @@
     state: absent
   notify:
     - reload nginx
-  when: nginx_modules.http_stub_status_module is not defined or nginx_modules.http_stub_status_module == false or nginx_modules.http_stub_status_module == 'False' 
+  when: nginx_modules.http_stub_status_module is not defined or nginx_modules.http_stub_status_module == false or nginx_modules.http_stub_status_module == 'False'
 
 

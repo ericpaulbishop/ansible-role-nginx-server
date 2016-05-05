@@ -98,7 +98,7 @@ nginx_example_root: "{{nginx_www_dir}}/example"
 
 
 # sites
-nginx_sites: 
+nginx_sites:
   - server:
       name: example
       listen: 80

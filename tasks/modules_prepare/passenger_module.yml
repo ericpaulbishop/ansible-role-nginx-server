@@ -21,7 +21,7 @@
 - name: Nginx Prepare | Modules | Set Passenger module path
   set_fact:
     nginx_configure_flags: "{{nginx_configure_flags}} --add-module='{{ passenger_root.stdout }}/ext/nginx' "
-  when: passenger_root.stdout != "" 
+  when: passenger_root.stdout != ""
 
 - name: Nginx Prepare | Modules | Set ruby path for Passenger
   set_fact:
@@ -31,5 +31,5 @@
 - name: Nginx Prepare | Modules | Set Passenger root path
   set_fact:
     nginx_passenger_root: "{{ passenger_root.stdout }}"
-  when: passenger_root.stdout != "" 
+  when: passenger_root.stdout != ""
 
