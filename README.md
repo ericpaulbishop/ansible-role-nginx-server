@@ -57,6 +57,7 @@ The following variables can be used to enable/disable modules to include in the 
 - `nginx_include_http_perl_module` - Enabled (true) by default
 - `nginx_include_http_sub_module` - Enabled (true) by default
 - `nginx_include_naxsi_module` - Enabled (true) by default
+- `nginx_include_ngx_http_sub_module` - Disabled (false) by default
 - `nginx_include_ngx_pagespeed_module` - Enabled (true) by default
 - `nginx_include_geoip_module` - Disabled (false) by default
 - `nginx_include_passenger_module` - Disabled (false) by default

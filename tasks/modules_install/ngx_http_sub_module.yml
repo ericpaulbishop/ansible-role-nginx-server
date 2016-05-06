@@ -1,0 +1,4 @@
+# file: nginx/tasks/modules/ngx_http_sub_module.yml
+# configure flag: --with-http_sub_module
+
+# no contents

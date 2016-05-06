@@ -45,6 +45,7 @@ nginx_include_http_spdy_module:         false
 nginx_include_http_perl_module:         true
 nginx_include_http_sub_module:          true
 nginx_include_naxsi_module:             true
+nginx_include_ngx_http_sub_module:      false
 nginx_include_ngx_pagespeed_module:     true
 nginx_include_geoip_module:             false
 nginx_include_passenger_module:         false
@@ -239,6 +240,7 @@ nginx_module_include_flags:
   http_perl_module:         "--with-http_perl_module"
   http_sub_module:          "--with-http_sub_module"
   naxsi_module:             "--add-module=/tmp/naxsi-{{nginx_naxsi_version}}/naxsi_src"
+  ngx_http_sub_module:      "--with-http_sub_module"
   ngx_pagespeed_module:     "--add-module=/tmp/ngx_pagespeed-release-{{nginx_ngx_pagespeed_version}}-beta"
   geoip_module:             "--with-http_geoip_module --with-ld-opt='-Wl,-R,/usr/local/lib -L /usr/local/lib'"
 
@@ -269,6 +271,7 @@ nginx_modules:
   http_perl_module:         "{{nginx_include_http_perl_module}}"
   http_sub_module:          "{{nginx_include_http_perl_module}}"
   naxsi_module:             "{{nginx_include_http_sub_module}}"
+  ngx_http_sub:             "{{nginx_include_ngx_http_sub_module}}"
   ngx_pagespeed:            "{{nginx_include_naxsi_module}}"
   geoip_module:             "{{nginx_include_geoip_module}}"
   passenger_module:         "{{nginx_include_passenger_module}}"
