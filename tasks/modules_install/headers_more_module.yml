@@ -1,13 +1,13 @@
 # file: nginx/tasks/modules/headers_more_module.yml
-# configure flag: --add-module=/tmp/nginx_headers_more
+# configure flag: --add-module={{nginx_build_dir}}/nginx_headers_more
 
 - name: Nginx Install | Modules | Download the headers_more_module source
   get_url:
     url: "{{nginx_headers_more_url}}"
-    dest: "/tmp/nginx-headers-more-module-{{nginx_headers_more_version}}.tar.gz"
+    dest: "{{nginx_build_dir}}/nginx-headers-more-module-{{nginx_headers_more_version}}.tar.gz"
 
 - name: Nginx Install | Modules | Unpack the headers_more_module source
-  command: "tar -xvzf /tmp/nginx-headers-more-module-{{nginx_headers_more_version}}.tar.gz"
+  command: "tar -xvzf {{nginx_build_dir}}/nginx-headers-more-module-{{nginx_headers_more_version}}.tar.gz"
   args:
-    chdir:   "/tmp"
-    creates: "/tmp/headers-more-nginx-module-{{nginx_headers_more_version}}"
+    chdir:   "{{nginx_build_dir}}"
+    creates: "{{nginx_build_dir}}/headers-more-nginx-module-{{nginx_headers_more_version}}"

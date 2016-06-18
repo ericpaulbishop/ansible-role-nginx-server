@@ -1,13 +1,13 @@
 # file: nginx/tasks/modules/http_echo_module.yml
-# configure flag: --add-module=/tmp/nginx_echo
+# configure flag: --add-module={{nginx_build_dir}}/nginx_echo
 
 - name: Nginx Install | Modules | Download the http_echo_module source
   get_url:
     url: "{{nginx_echo_url}}"
-    dest: "/tmp/nginx-echo-module-{{nginx_echo_version}}.tar.gz"
+    dest: "{{nginx_build_dir}}/nginx-echo-module-{{nginx_echo_version}}.tar.gz"
 
 - name: Nginx Install | Modules | Unpack the http_echo_module source
-  command: "tar -xvzf /tmp/nginx-echo-module-{{nginx_echo_version}}.tar.gz"
+  command: "tar -xvzf {{nginx_build_dir}}/nginx-echo-module-{{nginx_echo_version}}.tar.gz"
   args:
-    chdir:   "/tmp"
-    creates: "/tmp/echo-nginx-module-{{nginx_echo_version}}"
+    chdir:   "{{nginx_build_dir}}"
+    creates: "{{nginx_build_dir}}/echo-nginx-module-{{nginx_echo_version}}"

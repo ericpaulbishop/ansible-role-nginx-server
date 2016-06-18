@@ -17,6 +17,8 @@ nginx_pid:            "/var/run/nginx.pid"
 nginx_conf_path:      "{{nginx_dir}}/nginx.conf"
 nginx_sbin_path:      "/usr/local/sbin/nginx"
 
+nginx_build_dir:      "/tmp/nginx"
+
 
 # set custom server string?
 nginx_use_randomized_server_string:  false
@@ -226,20 +228,20 @@ nginx_geoip_city_url:    'http://geolite.maxmind.com/download/geoip/database/Geo
 nginx_module_include_flags:
   http_stub_status_module:  "--with-http_stub_status_module"
   http_ssl_module:          "--with-http_ssl_module"
-  openssl:                  "--with-openssl=/tmp/openssl-repo"
+  openssl:                  "--with-openssl={{nginx_build_dir}}/openssl-repo"
   http_gzip_static_module:  "--with-http_gzip_static_module"
-  upload_progress_module:   "--add-module=/tmp/nginx-upload-progress-module-{{nginx_upload_progress_version}}"
-  headers_more_module:      "--add-module=/tmp/headers-more-nginx-module-{{nginx_headers_more_version}}"
-  http_auth_request_module: "--add-module=/tmp/ngx_http_auth_request_module-{{nginx_auth_request_release}}"
-  http_echo_module:         "--add-module=/tmp/echo-nginx-module-{{nginx_echo_version}}"
+  upload_progress_module:   "--add-module={{nginx_build_dir}}/nginx-upload-progress-module-{{nginx_upload_progress_version}}"
+  headers_more_module:      "--add-module={{nginx_build_dir}}/headers-more-nginx-module-{{nginx_headers_more_version}}"
+  http_auth_request_module: "--add-module={{nginx_build_dir}}/ngx_http_auth_request_module-{{nginx_auth_request_release}}"
+  http_echo_module:         "--add-module={{nginx_build_dir}}/echo-nginx-module-{{nginx_echo_version}}"
   google_perftools_module:  "--with-google_perftools_module"
   ipv6_module:              "--with-ipv6"
   http_real_ip_module:      "--with-http_realip_module"
   http_spdy_module:         "--with-http_spdy_module"
   http_perl_module:         "--with-http_perl_module"
   http_sub_module:          "--with-http_sub_module"
-  naxsi_module:             "--add-module=/tmp/naxsi-{{nginx_naxsi_version}}/naxsi_src"
-  ngx_pagespeed_module:     "--add-module=/tmp/ngx_pagespeed-release-{{nginx_ngx_pagespeed_version}}-beta"
+  naxsi_module:             "--add-module={{nginx_build_dir}}/naxsi-{{nginx_naxsi_version}}/naxsi_src"
+  ngx_pagespeed_module:     "--add-module={{nginx_build_dir}}/ngx_pagespeed-release-{{nginx_ngx_pagespeed_version}}-beta"
   geoip_module:             "--with-http_geoip_module --with-ld-opt='-Wl,-R,/usr/local/lib -L /usr/local/lib'"
 
 

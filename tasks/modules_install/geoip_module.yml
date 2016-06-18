@@ -8,17 +8,17 @@
 - name: Nginx Install | Modules | Download the geoip lib source
   get_url:
     url: "{{nginx_geoip_url}}"
-    dest: "/tmp/geolib-{{nginx_geoip_version}}.tar.gz"
+    dest: "{{nginx_build_dir}}/geolib-{{nginx_geoip_version}}.tar.gz"
 
 - name: Nginx Install | Modules | Unpack the geoip library source
-  command: "tar -xvzf /tmp/geolib-{{nginx_geoip_version}}.tar.gz"
+  command: "tar -xvzf {{nginx_build_dir}}/geolib-{{nginx_geoip_version}}.tar.gz"
   args:
-    chdir:   "/tmp"
-    creates: "/tmp/GeoIP-{{nginx_geoip_version}}"
+    chdir:   "{{nginx_build_dir}}"
+    creates: "{{nginx_build_dir}}/GeoIP-{{nginx_geoip_version}}"
 
 - name: Nginx Install | Modules | Install the geoip library
   shell: >
-    cd "/tmp/GeoIP-{{nginx_geoip_version}}" &&
+    cd "{{nginx_build_dir}}/GeoIP-{{nginx_geoip_version}}" &&
     ./configure && 
     make &&
     make install
