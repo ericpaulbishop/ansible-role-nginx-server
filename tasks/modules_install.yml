@@ -31,9 +31,6 @@
 - include: modules_install/http_realip_module.yml
   when: nginx_modules.http_realip_module is defined and ( nginx_modules.http_realip_module == true or  nginx_modules.http_realip_module == 'True' )
 
-- include: modules_install/http_spdy_module.yml
-  when: nginx_modules.http_spdy_module is defined and ( nginx_modules.http_spdy_module == true or nginx_modules.http_spdy_module == 'True' )
-
 - include: modules_install/naxsi_module.yml
   when: nginx_modules.naxsi_module is defined and ( nginx_modules.naxsi_module == true or nginx_modules.naxsi_module == 'True' )
 

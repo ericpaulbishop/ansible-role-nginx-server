@@ -45,7 +45,7 @@ nginx_include_http_echo_module:         true
 nginx_include_google_perftools_module:  true
 nginx_include_ipv6_module:              true
 nginx_include_http_real_ip_module:      true
-nginx_include_http_spdy_module:         false
+nginx_include_http_v2_module:           true
 nginx_include_http_perl_module:         true
 nginx_include_http_sub_module:          true
 nginx_include_naxsi_module:             true
@@ -239,7 +239,7 @@ nginx_module_include_flags:
   google_perftools_module:  "--with-google_perftools_module"
   ipv6_module:              "--with-ipv6"
   http_real_ip_module:      "--with-http_realip_module"
-  http_spdy_module:         "--with-http_spdy_module"
+  http_v2_module:         "--with-http_v2_module"
   http_perl_module:         "--with-http_perl_module"
   http_sub_module:          "--with-http_sub_module"
   naxsi_module:             "--add-module={{nginx_build_dir}}/naxsi-{{nginx_naxsi_version}}/naxsi_src"
@@ -269,7 +269,7 @@ nginx_modules:
   google_perftools_module:  "{{nginx_include_google_perftools_module}}"
   ipv6_module:              "{{nginx_include_ipv6_module}}"
   http_real_ip_module:      "{{nginx_include_http_real_ip_module}}"
-  http_spdy_module:         "{{nginx_include_http_spdy_module}}"
+  http_v2_module:           "{{nginx_include_http_v2_module}}"
   http_perl_module:         "{{nginx_include_http_perl_module}}"
   http_sub_module:          "{{nginx_include_http_sub_module}}"
   naxsi_module:             "{{nginx_include_naxsi_module}}"

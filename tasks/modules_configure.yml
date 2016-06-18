@@ -21,8 +21,6 @@
 
 - include: modules_configure/http_realip_module.yml
 
-- include: modules_configure/http_spdy_module.yml
-
 - include: modules_configure/naxsi_module.yml
 
 - include: modules_configure/ngx_pagespeed_module.yml
