@@ -2,7 +2,7 @@
 
 nginx_install_method: "source"
 nginx_repo:           "http://hg.nginx.org/nginx"
-nginx_revision:       "release-1.9.12"
+nginx_revision:       "release-1.10.1"
 
 nginx_user:           "www-data"
 nginx_group:          "www-data"
@@ -199,7 +199,7 @@ nginx_naxsi_version: "0.53-2"
 nginx_naxsi_url: "https://github.com/nbs-system/naxsi/archive/{{nginx_naxsi_version}}.tar.gz"
 
 # ngx_pagespeed_module configuration
-nginx_ngx_pagespeed_version: 1.9.32.3
+nginx_ngx_pagespeed_version: "1.11.33.2"
 
 # OpenSSL configuration
 openssl_revision: "OpenSSL_1_0_2c"
