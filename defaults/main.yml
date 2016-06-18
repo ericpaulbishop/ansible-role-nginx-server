@@ -19,6 +19,8 @@ nginx_sbin_path:      "/usr/local/sbin/nginx"
 
 nginx_build_dir:      "/tmp/nginx"
 
+nginx_enable_example: false
+
 
 # set custom server string?
 nginx_use_randomized_server_string:  false
@@ -100,7 +102,7 @@ nginx_example_root: "{{nginx_www_dir}}/example"
 
 
 # sites
-nginx_sites: 
+nginx_sites:
   - server:
       name: example
       listen: 80
