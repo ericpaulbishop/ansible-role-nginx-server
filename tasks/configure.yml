@@ -29,7 +29,7 @@
 
 
 - name: Nginx Configure | Reload scripts if using systemd
-  service: name=nginx state=restarted
+  shell: "systemctl daemon-reload"
   when: have_systemd.stdout == "true"
 
 

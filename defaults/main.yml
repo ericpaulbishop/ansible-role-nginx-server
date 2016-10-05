@@ -100,7 +100,7 @@ nginx_access_logs:
 
 # default site
 nginx_example_root: "{{nginx_www_dir}}/example"
-
+nginx_enable_example: true
 
 # sites
 nginx_sites:
