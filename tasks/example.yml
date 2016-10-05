@@ -1,0 +1,26 @@
+# example site files
+
+- name: Nginx Configure | Create example site directory
+  file:
+    path: "{{nginx_www_dir}}/example"
+    state: directory
+    owner: "{{nginx_user}}"
+    group: "{{nginx_user}}"
+    mode: 0755
+
+- name: Nginx Configure | Create example site files
+  copy:
+    src: "example_page_index.html"
+    dest: "{{nginx_www_dir}}/example/index.html"
+    owner: "{{nginx_user}}"
+    group: "{{nginx_group}}"
+    mode: 0644
+
+- name: Nginx Configure | Create example site error pages
+  copy:
+    src: "error"
+    dest: "{{nginx_www_dir}}/example/"
+    owner: "{{nginx_user}}"
+    group: "{{nginx_group}}"
+    mode: 0644
+

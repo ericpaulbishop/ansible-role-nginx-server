@@ -1,15 +1,15 @@
 # file: roles/nginx/tasks/modules/naxsi_module.yml
-# configure flag: --add-module=/tmp/naxsi-{{nginx_naxsi_version}}/naxsi_src
+# configure flag: --add-module={{nginx_build_dir}}/naxsi-{{nginx_naxsi_version}}/naxsi_src
 
 - name: Nginx Install | Modules | Download the naxsi_module source
   get_url:
     url: "{{nginx_naxsi_url}}"
-    dest: "/tmp/nginx-naxsi-module-{{nginx_naxsi_version}}.tar.gz"
+    dest: "{{nginx_build_dir}}/nginx-naxsi-module-{{nginx_naxsi_version}}.tar.gz"
 
 - name: Nginx Install | Modules | Unpack the naxsi_module source
-  command: "tar -xvzf /tmp/nginx-naxsi-module-{{nginx_naxsi_version}}.tar.gz"
+  command: "tar -xvzf {{nginx_build_dir}}/nginx-naxsi-module-{{nginx_naxsi_version}}.tar.gz"
   args:
-    chdir:   "/tmp"
-    creates: "/tmp/naxsi-{{nginx_naxsi_version}}"
+    chdir:   "{{nginx_build_dir}}"
+    creates: "{{nginx_build_dir}}/naxsi-{{nginx_naxsi_version}}"
 
 

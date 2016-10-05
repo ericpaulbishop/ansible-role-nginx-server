@@ -4,7 +4,7 @@
 - name: get openssl source
   git:
     repo: "{{openssl_repo}}"
-    dest: "/tmp/openssl-repo"
+    dest: "{{nginx_build_dir}}/openssl-repo"
     version: "{{openssl_revision}}"
 
 

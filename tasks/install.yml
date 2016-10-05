@@ -102,14 +102,14 @@
 - name: Nginx Install | Clone the Nginx repo
   hg:
     repo:     "{{nginx_repo}}"
-    dest:     "/tmp/nginx-repo"
+    dest:     "{{nginx_build_dir}}/nginx-repo"
     revision: "{{nginx_revision}}"
     purge:    "yes"
 
 - name: Nginx Install | test for presence of configure script
   shell: >
-    if [ ! -e  '/tmp/nginx-repo/configure' ] && [ -e '/tmp/nginx-repo/auto/configure' ] ; then
-      cp '/tmp/nginx-repo/auto/configure' '/tmp/nginx-repo/configure' ;
+    if [ ! -e  '{{nginx_build_dir}}/nginx-repo/configure' ] && [ -e '{{nginx_build_dir}}/nginx-repo/auto/configure' ] ; then
+      cp '{{nginx_build_dir}}/nginx-repo/auto/configure' '{{nginx_build_dir}}/nginx-repo/configure' ;
     fi
 
 
@@ -117,7 +117,11 @@
 
 - name: Nginx Install | Set Server Name
   shell: >
+<<<<<<< HEAD
     cd /tmp/nginx-repo &&
+=======
+    cd {{nginx_build_dir}}/nginx-repo &&
+>>>>>>> jpswade/master
     perl -pi -e "s/\"Server:.*CRLF/\"Server: {{nginx_server_string}}\" CRLF/g"             "src/http/ngx_http_header_filter_module.c" &&
     perl -pi -e "s/\"Server:[\t ]+nginx\"/\"Server: {{nginx_server_string}}\"/g"           "src/http/ngx_http_header_filter_module.c" &&
     perl -pi -e "s/\<hr\>\<center\>.*<\/center\>/<hr><center>Server Response<\/center>/g"  "src/http/ngx_http_special_response.c"
@@ -126,7 +130,7 @@
 
 - name: Nginx Install | Compile the Nginx source
   shell: >
-    cd /tmp/nginx-repo &&
+    cd {{nginx_build_dir}}/nginx-repo &&
     ./configure {{nginx_configure_flags}} &&
     make
 
@@ -137,7 +141,7 @@
 
 - name: Nginx Install | Install the Nginx source
   shell: >
-    cd /tmp/nginx-repo && make install
+    cd {{nginx_build_dir}}/nginx-repo && make install
   notify: restart nginx
 
 

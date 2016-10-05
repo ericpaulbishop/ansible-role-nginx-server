@@ -53,7 +53,7 @@ The following variables can be used to enable/disable modules to include in the 
 - `nginx_include_google_perftools_module` - Enabled (true) by default
 - `nginx_include_ipv6_module` - Enabled (true) by default
 - `nginx_include_http_real_ip_module` - Enabled (true) by default
-- `nginx_include_http_spdy_module` - Enabled (true) by default
+- `nginx_include_http_v2_module` - Enabled (true) by default
 - `nginx_include_http_perl_module` - Enabled (true) by default
 - `nginx_include_http_sub_module` - Enabled (true) by default
 - `nginx_include_naxsi_module` - Enabled (true) by default

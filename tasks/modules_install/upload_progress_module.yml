@@ -2,12 +2,12 @@
 - name: Nginx Install | Modules | Download the upload_progress_module source
   get_url:
     url: "{{nginx_upload_progress_url}}"
-    dest: "/tmp/nginx-upload-progress-module-{{nginx_upload_progress_version}}.tar.gz"
+    dest: "{{nginx_build_dir}}/nginx-upload-progress-module-{{nginx_upload_progress_version}}.tar.gz"
 
 - name: Nginx Install | Modules | Unpack the upload_progress_module source
-  command:   "tar -xvzf /tmp/nginx-upload-progress-module-{{nginx_upload_progress_version}}.tar.gz"
+  command:   "tar -xvzf {{nginx_build_dir}}/nginx-upload-progress-module-{{nginx_upload_progress_version}}.tar.gz"
   args:
-    chdir:   "/tmp"
-    creates: "/tmp/nginx-upload-progress-module-{{nginx_upload_progress_version}}"
+    chdir:   "{{nginx_build_dir}}"
+    creates: "{{nginx_build_dir}}/nginx-upload-progress-module-{{nginx_upload_progress_version}}"
 
 

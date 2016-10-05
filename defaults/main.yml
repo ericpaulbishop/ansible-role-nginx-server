@@ -2,7 +2,7 @@
 
 nginx_install_method: "source"
 nginx_repo:           "http://hg.nginx.org/nginx"
-nginx_revision:       "release-1.9.12"
+nginx_revision:       "release-1.10.1"
 
 nginx_user:           "www-data"
 nginx_group:          "www-data"
@@ -16,6 +16,10 @@ nginx_pid:            "/var/run/nginx.pid"
 
 nginx_conf_path:      "{{nginx_dir}}/nginx.conf"
 nginx_sbin_path:      "/usr/local/sbin/nginx"
+
+nginx_build_dir:      "/tmp/nginx"
+
+nginx_enable_example: false
 
 
 # set custom server string?
@@ -41,7 +45,7 @@ nginx_include_http_echo_module:         true
 nginx_include_google_perftools_module:  true
 nginx_include_ipv6_module:              true
 nginx_include_http_real_ip_module:      true
-nginx_include_http_spdy_module:         false
+nginx_include_http_v2_module:           true
 nginx_include_http_perl_module:         true
 nginx_include_http_sub_module:          true
 nginx_include_naxsi_module:             true
@@ -196,7 +200,7 @@ nginx_naxsi_version: "0.53-2"
 nginx_naxsi_url: "https://github.com/nbs-system/naxsi/archive/{{nginx_naxsi_version}}.tar.gz"
 
 # ngx_pagespeed_module configuration
-nginx_ngx_pagespeed_version: 1.9.32.3
+nginx_ngx_pagespeed_version: "1.11.33.2"
 
 # OpenSSL configuration
 openssl_revision: "OpenSSL_1_0_2c"
@@ -227,21 +231,26 @@ nginx_geoip_city_url:    'http://geolite.maxmind.com/download/geoip/database/Geo
 nginx_module_include_flags:
   http_stub_status_module:  "--with-http_stub_status_module"
   http_ssl_module:          "--with-http_ssl_module"
-  openssl:                  "--with-openssl=/tmp/openssl-repo"
+  openssl:                  "--with-openssl={{nginx_build_dir}}/openssl-repo"
   http_gzip_static_module:  "--with-http_gzip_static_module"
-  upload_progress_module:   "--add-module=/tmp/nginx-upload-progress-module-{{nginx_upload_progress_version}}"
-  headers_more_module:      "--add-module=/tmp/headers-more-nginx-module-{{nginx_headers_more_version}}"
-  http_auth_request_module: "--add-module=/tmp/ngx_http_auth_request_module-{{nginx_auth_request_release}}"
-  http_echo_module:         "--add-module=/tmp/echo-nginx-module-{{nginx_echo_version}}"
+  upload_progress_module:   "--add-module={{nginx_build_dir}}/nginx-upload-progress-module-{{nginx_upload_progress_version}}"
+  headers_more_module:      "--add-module={{nginx_build_dir}}/headers-more-nginx-module-{{nginx_headers_more_version}}"
+  http_auth_request_module: "--add-module={{nginx_build_dir}}/ngx_http_auth_request_module-{{nginx_auth_request_release}}"
+  http_echo_module:         "--add-module={{nginx_build_dir}}/echo-nginx-module-{{nginx_echo_version}}"
   google_perftools_module:  "--with-google_perftools_module"
   ipv6_module:              "--with-ipv6"
   http_real_ip_module:      "--with-http_realip_module"
-  http_spdy_module:         "--with-http_spdy_module"
+  http_v2_module:         "--with-http_v2_module"
   http_perl_module:         "--with-http_perl_module"
   http_sub_module:          "--with-http_sub_module"
+<<<<<<< HEAD
   naxsi_module:             "--add-module=/tmp/naxsi-{{nginx_naxsi_version}}/naxsi_src"
   ngx_http_sub_module:      "--with-http_sub_module"
   ngx_pagespeed_module:     "--add-module=/tmp/ngx_pagespeed-release-{{nginx_ngx_pagespeed_version}}-beta"
+=======
+  naxsi_module:             "--add-module={{nginx_build_dir}}/naxsi-{{nginx_naxsi_version}}/naxsi_src"
+  ngx_pagespeed_module:     "--add-module={{nginx_build_dir}}/ngx_pagespeed-release-{{nginx_ngx_pagespeed_version}}-beta"
+>>>>>>> jpswade/master
   geoip_module:             "--with-http_geoip_module --with-ld-opt='-Wl,-R,/usr/local/lib -L /usr/local/lib'"
 
 
@@ -267,12 +276,11 @@ nginx_modules:
   google_perftools_module:  "{{nginx_include_google_perftools_module}}"
   ipv6_module:              "{{nginx_include_ipv6_module}}"
   http_real_ip_module:      "{{nginx_include_http_real_ip_module}}"
-  http_spdy_module:         "{{nginx_include_http_spdy_module}}"
+  http_v2_module:           "{{nginx_include_http_v2_module}}"
   http_perl_module:         "{{nginx_include_http_perl_module}}"
-  http_sub_module:          "{{nginx_include_http_perl_module}}"
-  naxsi_module:             "{{nginx_include_http_sub_module}}"
-  ngx_http_sub:             "{{nginx_include_ngx_http_sub_module}}"
-  ngx_pagespeed:            "{{nginx_include_naxsi_module}}"
+  http_sub_module:          "{{nginx_include_http_sub_module}}"
+  naxsi_module:             "{{nginx_include_naxsi_module}}"
+  ngx_pagespeed_module:     "{{nginx_include_ngx_pagespeed_module}}"
   geoip_module:             "{{nginx_include_geoip_module}}"
   passenger_module:         "{{nginx_include_passenger_module}}"
   mail_pop3_module:         "{{nginx_include_mail_pop3_module}}"
