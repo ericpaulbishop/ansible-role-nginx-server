@@ -117,11 +117,7 @@
 
 - name: Nginx Install | Set Server Name
   shell: >
-<<<<<<< HEAD
-    cd /tmp/nginx-repo &&
-=======
     cd {{nginx_build_dir}}/nginx-repo &&
->>>>>>> jpswade/master
     perl -pi -e "s/\"Server:.*CRLF/\"Server: {{nginx_server_string}}\" CRLF/g"             "src/http/ngx_http_header_filter_module.c" &&
     perl -pi -e "s/\"Server:[\t ]+nginx\"/\"Server: {{nginx_server_string}}\"/g"           "src/http/ngx_http_header_filter_module.c" &&
     perl -pi -e "s/\<hr\>\<center\>.*<\/center\>/<hr><center>Server Response<\/center>/g"  "src/http/ngx_http_special_response.c"
