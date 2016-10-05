@@ -19,7 +19,7 @@ nginx_sbin_path:      "/usr/local/sbin/nginx"
 
 nginx_build_dir:      "/tmp/nginx"
 
-nginx_enable_example: false
+nginx_enable_example: true
 
 
 # set custom server string?
@@ -100,7 +100,6 @@ nginx_access_logs:
 
 # default site
 nginx_example_root: "{{nginx_www_dir}}/example"
-nginx_enable_example: true
 
 # sites
 nginx_sites:
