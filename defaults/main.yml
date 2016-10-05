@@ -243,14 +243,9 @@ nginx_module_include_flags:
   http_v2_module:         "--with-http_v2_module"
   http_perl_module:         "--with-http_perl_module"
   http_sub_module:          "--with-http_sub_module"
-<<<<<<< HEAD
-  naxsi_module:             "--add-module=/tmp/naxsi-{{nginx_naxsi_version}}/naxsi_src"
-  ngx_http_sub_module:      "--with-http_sub_module"
-  ngx_pagespeed_module:     "--add-module=/tmp/ngx_pagespeed-release-{{nginx_ngx_pagespeed_version}}-beta"
-=======
   naxsi_module:             "--add-module={{nginx_build_dir}}/naxsi-{{nginx_naxsi_version}}/naxsi_src"
+  ngx_http_sub_module:      "--with-http_sub_module"
   ngx_pagespeed_module:     "--add-module={{nginx_build_dir}}/ngx_pagespeed-release-{{nginx_ngx_pagespeed_version}}-beta"
->>>>>>> jpswade/master
   geoip_module:             "--with-http_geoip_module --with-ld-opt='-Wl,-R,/usr/local/lib -L /usr/local/lib'"
 
 
