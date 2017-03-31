@@ -2,15 +2,15 @@
 - name: Nginx Configure | Modules | Make sure the upload_progress_module configuration is updated when enabled
   template:
     src: templates/modules/upload_progress.j2
-    dest: "{{nginx_dir}}/sites-available/upload_progress"
+    dest: "{{ nginx_dir }}/sites-available/upload_progress"
     owner: root
     group: root
     mode: 0644
-  when: nginx_modules.upload_progress_module is defined and ( nginx_modules.upload_progress_module == true or nginx_modules.upload_progress_module == 'True' )
+  when: "{{ nginx_modules.upload_progress_module is defined and ( nginx_modules.upload_progress_module == true or nginx_modules.upload_progress_module == 'True' ) }}"
 
 - name: Nginx Configure | Modules | Make sure the upload_progress_module configuration is removed when disabled
   file:
-    path: "{{nginx_dir}}/sites-available/upload_progress"
+    path: "{{ nginx_dir }}/sites-available/upload_progress"
     state: absent
-  when: nginx_modules.upload_progress_module is not defined or nginx_modules.upload_progress_module == false or nginx_modules.upload_progress_module == 'False'
+  when: "{{ nginx_modules.upload_progress_module is not defined or nginx_modules.upload_progress_module == false or nginx_modules.upload_progress_module == 'False' }}"
 

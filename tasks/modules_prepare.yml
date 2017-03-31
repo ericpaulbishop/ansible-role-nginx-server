@@ -2,45 +2,45 @@
 # file: nginx/tasks/modules_prepare.yml
 
 - include: modules_prepare/http_stub_status_module.yml
-  when: nginx_modules.http_stub_status_module is defined and ( nginx_modules.http_stub_status_module == true or nginx_modules.http_stub_status_module == 'True' )
+  when: "{{ nginx_modules.http_stub_status_module is defined and ( nginx_modules.http_stub_status_module == true or nginx_modules.http_stub_status_module == 'True' ) }}"
 
 - include: modules_prepare/http_ssl_module.yml
-  when: nginx_modules.http_ssl_module is defined and ( nginx_modules.http_ssl_module == true or nginx_modules.http_ssl_module == 'True' )
+  when: "{{ nginx_modules.http_ssl_module is defined and ( nginx_modules.http_ssl_module == true or nginx_modules.http_ssl_module == 'True' ) }}"
 
 - include: modules_prepare/http_gzip_static_module.yml
-  when: nginx_modules.http_gzip_static_module is defined and ( nginx_modules.http_gzip_static_module == true or nginx_modules.http_gzip_static_module == 'True' )
+  when: "{{ nginx_modules.http_gzip_static_module is defined and ( nginx_modules.http_gzip_static_module == true or nginx_modules.http_gzip_static_module == 'True' ) }}"
 
 - include: modules_prepare/upload_progress_module.yml
-  when: nginx_modules.upload_progress_module is defined and ( nginx_modules.upload_progress_module == true or  nginx_modules.upload_progress_module == 'True' )
+  when: "{{ nginx_modules.upload_progress_module is defined and ( nginx_modules.upload_progress_module == true or  nginx_modules.upload_progress_module == 'True' ) }}"
 
 - include: modules_prepare/headers_more_module.yml
-  when: nginx_modules.headers_more_module is defined and ( nginx_modules.headers_more_module == true or nginx_modules.headers_more_module == 'True' )
+  when: "{{ nginx_modules.headers_more_module is defined and ( nginx_modules.headers_more_module == true or nginx_modules.headers_more_module == 'True' ) }}"
 
 - include: modules_prepare/http_auth_request_module.yml
-  when: nginx_modules.http_auth_request_module is defined and ( nginx_modules.http_auth_request_module == true or nginx_modules.http_auth_request_module == 'True' )
+  when: "{{ nginx_modules.http_auth_request_module is defined and ( nginx_modules.http_auth_request_module == true or nginx_modules.http_auth_request_module == 'True' ) }}"
 
 - include: modules_prepare/http_echo_module.yml
-  when: nginx_modules.http_echo_module is defined and ( nginx_modules.http_echo_module == true or nginx_modules.http_echo_module == 'True' )
+  when: "{{ nginx_modules.http_echo_module is defined and ( nginx_modules.http_echo_module == true or nginx_modules.http_echo_module == 'True' ) }}"
 
 - include: modules_prepare/google_perftools_module.yml
-  when: nginx_modules.google_perftools_module is defined and ( nginx_modules.google_perftools_module == true or nginx_modules.google_perftools_module == 'True' )
+  when: "{{ nginx_modules.google_perftools_module is defined and ( nginx_modules.google_perftools_module == true or nginx_modules.google_perftools_module == 'True' ) }}"
 
 - include: modules_prepare/ipv6_module.yml
-  when: nginx_modules.ipv6_module is defined and ( nginx_modules.ipv6_module == true or nginx_modules.ipv6_module == 'True' )
+  when: "{{ nginx_modules.ipv6_module is defined and ( nginx_modules.ipv6_module == true or nginx_modules.ipv6_module == 'True' ) }}"
 
 - include: modules_prepare/http_realip_module.yml
-  when: nginx_modules.http_realip_module is defined and ( nginx_modules.http_realip_module == true or  nginx_modules.http_realip_module == 'True' )
+  when: "{{ nginx_modules.http_realip_module is defined and ( nginx_modules.http_realip_module == true or  nginx_modules.http_realip_module == 'True' ) }}"
 
 - include: modules_prepare/naxsi_module.yml
-  when: nginx_modules.naxsi_module is defined and ( nginx_modules.naxsi_module == true or nginx_modules.naxsi_module == 'True' )
+  when: "{{ nginx_modules.naxsi_module is defined and ( nginx_modules.naxsi_module == true or nginx_modules.naxsi_module == 'True' ) }}"
 
 - include: modules_prepare/ngx_http_sub_module.yml
-  when: nginx_modules.ngx_http_sub_module is defined and ( nginx_modules.ngx_http_sub == true or nginx_modules.ngx_http_sub_module == 'True' )
+  when: "{{ nginx_modules.ngx_http_sub_module is defined and ( nginx_modules.ngx_http_sub == true or nginx_modules.ngx_http_sub_module == 'True' ) }}"
 
 - include: modules_prepare/ngx_pagespeed_module.yml
-  when: nginx_modules.ngx_pagespeed_module is defined and ( nginx_modules.ngx_pagespeed == true or nginx_modules.ngx_pagespeed_module == 'True' )
+  when: "{{ nginx_modules.ngx_pagespeed_module is defined and ( nginx_modules.ngx_pagespeed == true or nginx_modules.ngx_pagespeed_module == 'True' ) }}"
 
 - include: modules_prepare/passenger_module.yml
-  when: nginx_modules.passenger_module is defined and ( nginx_modules.passenger_module == true or  nginx_modules.passenger_module == 'True' )
+  when: "{{ nginx_modules.passenger_module is defined and ( nginx_modules.passenger_module == true or  nginx_modules.passenger_module == 'True' ) }}"
 
 

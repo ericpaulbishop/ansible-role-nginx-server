@@ -25,12 +25,12 @@
     mode: 0644
   notify:
     - restart nginx
-  when: have_systemd.stdout == "true"
+  when: "{{ have_systemd.stdout == 'true' }}"
 
 
 - name: Nginx Configure | Reload scripts if using systemd
   shell: "systemctl daemon-reload"
-  when: have_systemd.stdout == "true"
+  when: "{{ have_systemd.stdout == 'true' }}"
 
 
 - name: Nginx Configure | Register Nginx as a service
@@ -42,7 +42,7 @@
 - name: Nginx Configure | Install the nxensite and nxdissite scripts
   template:
     src: "{{item}}.j2"
-    dest: "/usr/sbin/{{item}}"
+    dest: "/usr/sbin/{{ item }}"
     owner: root
     group: root
     mode: 0755
@@ -54,7 +54,7 @@
 - name: Nginx Configure | Make sure the mime.types file is up to date
   copy:
     src: mime.types
-    dest: "{{nginx_dir}}/mime.types"
+    dest: "{{ nginx_dir }}/mime.types"
     owner: root
     group: root
     mode: 0644
@@ -65,7 +65,7 @@
 - name: Nginx Configure | Make sure the Nginx configuration is updated
   template:
     src: nginx.conf.j2
-    dest: "{{nginx_dir}}/nginx.conf"
+    dest: "{{ nginx_dir }}/nginx.conf"
     owner: root
     group: root
     mode: 0644
@@ -80,9 +80,9 @@
 - name: Nginx Configure | Update the configurations for the sites inventory
   template:
     src: "{{ item.template|default('site.j2') }}"
-    dest: "{{nginx_dir}}/sites-available/{{item.server.name}}"
-  with_items:  nginx_sites
-  when: nginx_sites|lower != 'none'
+    dest: "{{ nginx_dir }}/sites-available/{{ item.server.name }}"
+  with_items: "{{ nginx_sites }}"
+  when: "{{ nginx_sites|lower != 'none' }}"
 
 
 # example
@@ -96,21 +96,21 @@
 
 - name: Nginx Configure | Enable sites
   file:
-    path:  "{{nginx_dir}}/sites-enabled/{{item.server.name}}"
-    src:   "{{nginx_dir}}/sites-available/{{item.server.name}}"
+    path:  "{{ nginx_dir }}/sites-enabled/{{ item.server.name }}"
+    src:   "{{ nginx_dir }}/sites-available/{{ item.server.name }}"
     state: link
   with_items: "{{ nginx_sites }}"
-  when:       nginx_sites|lower != 'none' and nginx_enabled_sites|lower != 'none' and item.server.name == "{% for e in nginx_enabled_sites %}{% if item.server is defined and item.server.name is defined and e == item.server.name %}{{item.server.name}}{% endif %}{% endfor %}"
+  when:       "{{ nginx_sites|lower != 'none' and nginx_enabled_sites|lower != 'none' and item.server.name in nginx_enabled_sites }}"
   notify:
     - reload nginx
 
 
 - name: Nginx Configure | Ensure sites not enabled are disabled
   file:
-    path:  "{{nginx_dir}}/sites-enabled/{{item.server.name}}"
+    path:  "{{ nginx_dir }}/sites-enabled/{{ item.server.name }}"
     state: absent
   with_items: "{{ nginx_sites }}"
-  when:       nginx_sites|lower != 'none' and ( nginx_enabled_sites|lower == 'none' or item.server.name != "{% for e in nginx_enabled_sites %}{% if item.server is defined and item.server.name is defined and e == item.server.name %}{{item.server.name}}{% endif %}{% endfor %}" )
+  when:       "{{ nginx_sites|lower != 'none' and ( nginx_enabled_sites|lower == 'none' or item.server.name not in nginx_enabled_sites ) }}"
   notify:
     - reload nginx
 
@@ -120,7 +120,7 @@
   apt:
     pkg:   "monit"
     state: present
-  when: nginx_monit_protection == true or nginx_monit_protection == 'True'
+  when: "{{ nginx_monit_protection == true or nginx_monit_protection == 'True' }}"
 
 - name: Nginx Configure | Create the nginx monit service file when monit protection enabled
   template:
@@ -128,11 +128,11 @@
     dest: /etc/monit/conf.d/nginx
   notify:
     - restart monit
-  when: nginx_monit_protection == true or nginx_monit_protection == 'True'
+  when: "{{ nginx_monit_protection == true or nginx_monit_protection == 'True' }}"
 
 - name: Nginx Configure | Remove the nginx monit service file when monit protection disabled
   file:
     path:  /etc/monit/conf.d/nginx
     state: absent
-  when: nginx_monit_protection == false or nginx_monit_protection == 'False'
+  when: "{{ nginx_monit_protection == false or nginx_monit_protection == 'False' }}"
 

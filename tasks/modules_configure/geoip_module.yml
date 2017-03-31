@@ -2,34 +2,34 @@
 
 - name: Nginx Configure | Create geoip data directory for nginx when geoip module is enabled
   file:
-    path: "{{nginx_dir}}/geoip"
+    path: "{{ nginx_dir }}/geoip"
     owner: root
     group: root
     state: directory
     mode:  0755
-  when: nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' )
+  when: "{{ nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' ) }}"
 
 - name: Nginx Configure | Download geoip country data when geoip module is enabled
   get_url:
-    url:   "{{nginx_geoip_country_url}}"
-    dest:  "{{nginx_dir}}/geoip/GeoIP.dat.gz"
+    url:   "{{ nginx_geoip_country_url }}"
+    dest:  "{{ nginx_dir }}/geoip/GeoIP.dat.gz"
     force: no
-  when: nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' )
+  when: "{{ nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' ) }}"
 
 - name: Nginx Configure | Download geoip country data when geoip module is enabled
   get_url:
     url:   "{{nginx_geoip_city_url}}"
     dest:  "{{nginx_dir}}/geoip/GeoLiteCity.dat.gz"
     force: no
-  when: nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' )
+  when: "{{ nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' ) }}"
 
 - name: Nginx Configure | Extract geoip data when geoip module is enabled
   shell: >
-    gunzip -c "{{nginx_dir}}/geoip/GeoLiteCity.dat.gz" > "{{nginx_dir}}/geoip/GeoLiteCity.dat" &&
-    gunzip -c "{{nginx_dir}}/geoip/GeoIP.dat.gz"       > "{{nginx_dir}}/geoip/GeoIP.dat"
+    gunzip -c "{{ nginx_dir }}/geoip/GeoLiteCity.dat.gz" > "{{ nginx_dir }}/geoip/GeoLiteCity.dat" &&
+    gunzip -c "{{ nginx_dir }}/geoip/GeoIP.dat.gz"       > "{{ nginx_dir }}/geoip/GeoIP.dat"
   args:
-    creates:  "{{nginx_dir}}/geoip/GeoIP.dat"
-  when: nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' )
+    creates:  "{{ nginx_dir }}/geoip/GeoIP.dat"
+  when: "{{ nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' ) }}"
 
 - name: Nginx Configure | Set cron.monthly script to periodically update geoip data when geoip module is enabled
   template:
@@ -38,7 +38,7 @@
     owner: root
     group: root
     mode:  0755
-  when: nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' )
+  when: "{{ nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' ) }}"
 
 
 - name: Nginx Configure | Update geoip configuration file for nginx when geoip module is enabled
@@ -50,29 +50,27 @@
     mode:  0644
   notify:
     - reload nginx
-  when: nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' )
-
-
+  when: "{{ nginx_modules.geoip_module is defined and ( nginx_modules.geoip_module == true or nginx_modules.geoip_module == 'True' ) }}"
 
 
 - name: Nginx Configure | Remove cron.monthly geoip update script when geoip module is disabled
   file:
     path:    "/etc/cron.monthly/geoip_update"
     state:   absent
-  when: nginx_modules.geoip_module is not defined or nginx_modules.geoip_module == false or nginx_modules.geoip_module == 'False'
+  when: "{{ nginx_modules.geoip_module is not defined or nginx_modules.geoip_module == false or nginx_modules.geoip_module == 'False' }}"
 
 - name: Nginx Configure | Remove nginx geoip directory and files when geoip module is disabled
   file:
-    path:  "{{nginx_dir}}/geoip"
+    path:  "{{ nginx_dir }}/geoip"
     state: absent
-  when: nginx_modules.geoip_module is not defined or nginx_modules.geoip_module == false or nginx_modules.geoip_module == 'False'
+  when: "{{ nginx_modules.geoip_module is not defined or nginx_modules.geoip_module == false or nginx_modules.geoip_module == 'False' }}"
 
 
 - name: Nginx Configure | Remove geoip configuration file for nginx when geoip module is disabled
   file:
-    path:  "{{nginx_dir}}/conf.d/geoip.conf"
+    path:  "{{ nginx_dir }}/conf.d/geoip.conf"
     state: absent
   notify:
     - reload nginx
-  when: nginx_modules.geoip_module is not defined or nginx_modules.geoip_module == false or nginx_modules.geoip_module == 'False'
+  when: "{{ nginx_modules.geoip_module is not defined or nginx_modules.geoip_module == false or nginx_modules.geoip_module == 'False' }}"
 
