@@ -2,7 +2,7 @@
 
 nginx_install_method: "source"
 nginx_repo:           "http://hg.nginx.org/nginx"
-nginx_revision:       "release-1.10.1"
+nginx_revision:       "release-1.13.0"
 
 nginx_user:           "www-data"
 nginx_group:          "www-data"
