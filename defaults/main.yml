@@ -41,7 +41,7 @@ nginx_include_http_gzip_static_module:  true
 nginx_include_upload_progress_module:   true
 nginx_include_headers_more_module:      true
 nginx_include_http_auth_request_module: true
-nginx_include_http_echo_module:         true
+nginx_include_http_echo_module:         false
 nginx_include_google_perftools_module:  true
 nginx_include_ipv6_module:              true
 nginx_include_http_real_ip_module:      true
