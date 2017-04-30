@@ -23,9 +23,19 @@
     owner: root
     group: root
     mode: 0644
+  when: "{{ have_systemd.stdout == 'true' }}"
   notify:
     - restart nginx
+
+- name: Create Systemd symlink for nginx
+  file: 
+    dest: "/etc/systemd/system/nginx.service"
+    src: "/lib/systemd/system/nginx.service"
+    state: link 
+    force: yes
   when: "{{ have_systemd.stdout == 'true' }}"
+  notify: 
+    - restart nginx
 
 
 - name: Nginx Configure | Reload scripts if using systemd
